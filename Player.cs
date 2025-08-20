@@ -68,7 +68,7 @@ public partial class Player : CharacterBody3D
 		
 		//camera movement
 		var CameraController = GetNode<Node3D>("Camera_Controller");
-		CameraController.GlobalPosition = Lerp3(CameraController.GlobalPosition,GlobalPosition,float.Parse("0.05"));
+		CameraController.GlobalPosition = Lerp3(CameraController.GlobalPosition,GlobalPosition,0.05f);
 	}
 	
 	public static Vector3 Lerp3(Vector3 First, Vector3 Second, float Amount)
