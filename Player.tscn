@@ -1,10 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbr6s2bd62f0j"]
+[gd_scene load_steps=7 format=3 uid="uid://cbr6s2bd62f0j"]
 
 [ext_resource type="Script" uid="uid://du48yj15mvict" path="res://Player.cs" id="1_xhfnw"]
+[ext_resource type="Shader" uid="uid://bl288g6wlq3hn" path="res://main.gdshader" id="2_kpjcp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
+render_priority = 0
+shader = ExtResource("2_kpjcp")
+shader_parameter/depth_threshold = 0.05
+shader_parameter/normal_threshold = 0.6
+shader_parameter/darken_amount = 0.3
+shader_parameter/lighten_amount = 1.5
+shader_parameter/light_direction = Vector3(-0.96, -0.18, 0.2)
+
+[sub_resource type="QuadMesh" id="QuadMesh_kpjcp"]
+material = SubResource("ShaderMaterial_h2yge")
+flip_faces = true
+size = Vector2(2, 2)
+subdivide_width = 32
+subdivide_depth = 32
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_xhfnw")
@@ -26,3 +43,9 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 
 [node name="Camera3D" type="Camera3D" parent="Camera_Controller/Camera_Target"]
 current = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Camera_Controller/Camera_Target/Camera3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.87959e-07, -1.9, -4.3)
+extra_cull_margin = 16384.0
+mesh = SubResource("QuadMesh_kpjcp")
+skeleton = NodePath("../..")
