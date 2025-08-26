@@ -20,27 +20,36 @@ public partial class Player : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		var direction = Vector3.Zero;
+		
+		if(Input.MouseMode == Input.MouseModeEnum.Captured)
+		{
+			if (Input.IsActionPressed("move_right"))
+			{
+				direction.X += 1.0f;
+				direction.Z -= 1.0f;
+			}
+			if (Input.IsActionPressed("move_left"))
+			{
+				direction.X -= 1.0f;
+				direction.Z += 1.0f;
+			}
+			if (Input.IsActionPressed("move_back"))
+			{
+				direction.Z += 1.0f;
+				direction.X += 1.0f;
+			}
+			if (Input.IsActionPressed("move_forward"))
+			{
+				direction.X -= 1.0f;
+				direction.Z -= 1.0f;
+			}
+			if (IsOnFloor() && Input.IsActionPressed("jump"))
+			{
+				_targetVelocity.Y = JumpImpulse;
+			}
+		}
 
-		if (Input.IsActionPressed("move_right"))
-		{
-			direction.X += 1.0f;
-			direction.Z -= 1.0f;
-		}
-		if (Input.IsActionPressed("move_left"))
-		{
-			direction.X -= 1.0f;
-			direction.Z += 1.0f;
-		}
-		if (Input.IsActionPressed("move_back"))
-		{
-			direction.Z += 1.0f;
-			direction.X += 1.0f;
-		}
-		if (Input.IsActionPressed("move_forward"))
-		{
-			direction.X -= 1.0f;
-			direction.Z -= 1.0f;
-		}
+		
 
 		if (direction != Vector3.Zero)
 		{
@@ -59,10 +68,7 @@ public partial class Player : CharacterBody3D
 		// Moving the character
 		Velocity = _targetVelocity;
 		
-		if (IsOnFloor() && Input.IsActionPressed("jump"))
-		{
-			_targetVelocity.Y = JumpImpulse;
-		}
+		
 		
 		MoveAndSlide();
 		
@@ -80,33 +86,44 @@ public partial class Player : CharacterBody3D
 			switch (mouseEvent.ButtonIndex)
 			{
 				case MouseButton.WheelUp:
-					if(camera_offset.X > max_camera_zoomin)
+					if(Input.MouseMode == Input.MouseModeEnum.Captured)
 					{
-						camera_offset.X -= 1f;
-						camera_offset.Y -= 1f;
-						camera_offset.Z -= 1f;
-						if(camera_offset.X < 0)
+						if(camera_offset.X > max_camera_zoomin)
 						{
-							camera_rotation.X += 0.1f;//Mathf.DegToRad(0.15f);
-							camera_rotation.Z -= 0.1f;//Mathf.DegToRad(0.15f);
-						}
-					}
-				   	break;
-				case MouseButton.WheelDown:
-					if(camera_offset.X < max_camera_zoomout)
-					{
-						camera_offset.X += 1f;
-						camera_offset.Y += 1f;
-						camera_offset.Z += 1f;
-						if(camera_offset.X <= 0)
-						{
-							if(camera_rotation.X != 0)
+							camera_offset.X -= 1f;
+							camera_offset.Y -= 1f;
+							camera_offset.Z -= 1f;
+							if(camera_offset.X < 0)
 							{
-								camera_rotation.X -= 0.1f;//Mathf.DegToRad(0.15f);
-								camera_rotation.Z += 0.1f;//Mathf.DegToRad(0.15f);
+								camera_rotation.X += 0.1f;//Mathf.DegToRad(0.15f);
+								camera_rotation.Z -= 0.1f;//Mathf.DegToRad(0.15f);
 							}
 						}
 					}
+				   	break;
+					
+				case MouseButton.WheelDown:
+					if(Input.MouseMode == Input.MouseModeEnum.Captured)
+					{
+						if(camera_offset.X < max_camera_zoomout)
+						{
+							camera_offset.X += 1f;
+							camera_offset.Y += 1f;
+							camera_offset.Z += 1f;
+							if(camera_offset.X <= 0)
+							{
+								if(camera_rotation.X != 0)
+								{
+									camera_rotation.X -= 0.1f;//Mathf.DegToRad(0.15f);
+									camera_rotation.Z += 0.1f;//Mathf.DegToRad(0.15f);
+								}
+							}
+						}
+					}
+					break;
+				
+				case MouseButton.Left:
+					Input.MouseMode = Input.MouseModeEnum.Captured;
 					break;
 			}
 		}

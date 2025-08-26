@@ -7,4 +7,12 @@ public partial class Main : Node
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 	}
+	
+	public override void _PhysicsProcess(double delta)
+	{
+		if (Input.IsActionPressed("menu"))
+		{
+			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+	}
 }
