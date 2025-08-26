@@ -188,7 +188,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.97904, 4.31426, 3.82467)
 shape = SubResource("BoxShape3D_4c57u")
 
 [node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_0xm2m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 3.15134, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 7.98753, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.808324, 0.0340673, -0.587751, -0.0618443, -0.997714, 0.0272238, -0.58548, 0.0583547, 0.808584, 6.5699, 5.63357, 13.5617)

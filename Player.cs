@@ -59,7 +59,7 @@ public partial class Player : CharacterBody3D
 		// Moving the character
 		Velocity = _targetVelocity;
 		
-		if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+		if (IsOnFloor() && Input.IsActionPressed("jump"))
 		{
 			_targetVelocity.Y = JumpImpulse;
 		}
