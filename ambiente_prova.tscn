@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://b82yp8dfdc3qb"]
+
+[ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="1_pb2y2"]
+[ext_resource type="PackedScene" uid="uid://sse0ftkosg1r" path="res://ambiente test 2 colorATO.glb" id="1_u4wjj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pb2y2"]
+size = Vector3(256.7, 0.001, 380.3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_u4wjj"]
+size = Vector3(15.3, 29.5, 20.7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hwypn"]
+size = Vector3(18.1, 27.4, 16.5)
+
+[node name="AmbienteProva" type="Node"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(384, 216)
+render_target_update_mode = 4
+
+[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_pb2y2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 6.0939, 27.3972)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+
+[node name="ambiente test 2 colorATO" parent="SubViewportContainer/SubViewport/StaticBody3D/MeshInstance3D" instance=ExtResource("1_u4wjj")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -31.6699, -0.00272784, -55.1985)
+shape = SubResource("BoxShape3D_pb2y2")
+debug_color = Color(3.36915e-07, 0.305745, 0.360821, 0.42)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, -30.8074, 13.9473, 0.232723)
+shape = SubResource("BoxShape3D_u4wjj")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(-5.96046e-08, 0, 1, 0, 1, 0, -1, 0, -5.96046e-08, -0.157435, 14.2473, 0.232723)
+shape = SubResource("BoxShape3D_u4wjj")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.072, 13.2, 0.05)
+shape = SubResource("BoxShape3D_hwypn")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.808324, 0.0340673, -0.587751, -0.0618443, -0.997714, 0.0272238, -0.58548, 0.0583547, 0.808584, 6.5699, 5.63357, 13.5617)
+shadow_enabled = true

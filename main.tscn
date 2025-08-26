@@ -1,5 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=25 format=3 uid="uid://de68u7hdnog6c"]
 
+[ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://ambientazione prova Giovanni cleaned up 2.0.glb" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="2_0xm2m"]
 
@@ -74,6 +75,7 @@ size = Vector3(2.14648, 2.11934, 1.84532)
 size = Vector3(1.06628, 4.81467, 1.11783)
 
 [node name="Main" type="Node"]
+script = ExtResource("1_h2yge")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1

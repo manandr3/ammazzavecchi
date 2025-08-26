@@ -13,8 +13,10 @@ public partial class Player : CharacterBody3D
 	
 	private Vector3 _targetVelocity = Vector3.Zero;
 	private Vector3 camera_offset = Vector3.Zero;
+	private Vector3 camera_rotation = Vector3.Zero;
 	private int max_camera_zoomout = 12;
-	private int max_camera_zoomin = -2;
+	private int max_camera_zoomin = -3;
+	private Vector3 first_person_offset = new Vector3(x: -3.2f, y: -1f, z: -3.2f);
 	public override void _PhysicsProcess(double delta)
 	{
 		var direction = Vector3.Zero;
@@ -66,7 +68,8 @@ public partial class Player : CharacterBody3D
 		
 		//camera movement
 		var CameraController = GetNode<Node3D>("Camera_Controller");
-		CameraController.GlobalPosition = Lerp3(CameraController.GlobalPosition,GlobalPosition + camera_offset, 0.01f*((max_camera_zoomout - max_camera_zoomin)-(camera_offset.X)));
+		CameraController.GlobalPosition = Lerp3(CameraController.GlobalPosition, GlobalPosition + ( camera_offset.X < -2 ? first_person_offset : camera_offset), 0.5f*((max_camera_zoomout - max_camera_zoomin)-(camera_offset.X)) / (max_camera_zoomout - max_camera_zoomin));
+		CameraController.Rotation = Lerp_angle(CameraController.Rotation, camera_rotation, 0.2f);
 	}
 	
 	//mouse wheel controller to modify camera position
@@ -82,6 +85,11 @@ public partial class Player : CharacterBody3D
 						camera_offset.X -= 1f;
 						camera_offset.Y -= 1f;
 						camera_offset.Z -= 1f;
+						if(camera_offset.X < 0)
+						{
+							camera_rotation.X += 0.1f;//Mathf.DegToRad(0.15f);
+							camera_rotation.Z -= 0.1f;//Mathf.DegToRad(0.15f);
+						}
 					}
 				   	break;
 				case MouseButton.WheelDown:
@@ -90,10 +98,20 @@ public partial class Player : CharacterBody3D
 						camera_offset.X += 1f;
 						camera_offset.Y += 1f;
 						camera_offset.Z += 1f;
+						if(camera_offset.X <= 0)
+						{
+							if(camera_rotation.X != 0)
+							{
+								camera_rotation.X -= 0.1f;//Mathf.DegToRad(0.15f);
+								camera_rotation.Z += 0.1f;//Mathf.DegToRad(0.15f);
+							}
+						}
 					}
 					break;
 			}
 		}
+		
+		//if(@event is InputEventMouseMotion eventMouseMotion)
 	}
 	
 	public static Vector3 Lerp3(Vector3 First, Vector3 Second, float Amount)
@@ -104,11 +122,12 @@ public partial class Player : CharacterBody3D
 		return new Vector3(retX, retY, retZ);
 	}
 	
-	public static Vector2 Lerp2(Vector2 First, Vector2 Second, float Amount)
-	{
-		float retX = Lerp(First.X, Second.X, Amount);
-		float retY = Lerp(First.Y, Second.Y, Amount);
-		return new Vector2(retX, retY);
+	public static Vector3 Lerp_angle(Vector3 First, Vector3 Second, float Amount)
+	{		
+		float retX = Mathf.LerpAngle(First.X, Second.X, Amount);
+		float retY = Mathf.LerpAngle(First.Y, Second.Y, Amount);
+		float retZ = Mathf.LerpAngle(First.Z, Second.Z, Amount);
+		return new Vector3(retX, retY, retZ);
 	}
 	
 	public static float Lerp(float First, float Second, float Amount)

@@ -33,64 +33,64 @@ void fragment() {
 	vec3 normal = texture(normal_texture, SCREEN_UV).rgb * 2.0 - 1.0;
 	float depth = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	vec2 texel_size = 1.0 / VIEWPORT_SIZE.xy;
-	
+
 	vec2 uvs[4];
 	uvs[0] = vec2(SCREEN_UV.x, SCREEN_UV.y + texel_size.y);
 	uvs[1] = vec2(SCREEN_UV.x, SCREEN_UV.y - texel_size.y);
 	uvs[2] = vec2(SCREEN_UV.x + texel_size.x, SCREEN_UV.y);
 	uvs[3] = vec2(SCREEN_UV.x - texel_size.x, SCREEN_UV.y);
-	
+
 	float depth_diff = 0.0;
 	float normal_sum = 0.0;
 	float nearest_depth = depth;
 	vec2 nearest_uv = SCREEN_UV;
-	
-	
+
+
 	for(int i = 0; i < 4; i++)
 	{
 		float d = get_depth(uvs[i], INV_PROJECTION_MATRIX);
 		depth_diff += depth - d;
-		
+
 		if(d < nearest_depth)
 		{
 			nearest_depth = d;
 			nearest_uv = uvs[i];
 		}
-		
+
 		vec3 n = texture(normal_texture, uvs[i]).xyz * 2.0 - 1.0;
 		vec3 normal_diff = normal - n;
-		
+
 		vec3 normal_edge_bias = vec3(1,1,1);
-		
+
 		float normal_bias_diff = dot(normal_diff, normal_edge_bias);
 		float normal_indicator = smoothstep(-0.01, 0.01, normal_bias_diff);
-		
+
 		normal_sum += dot(normal_diff, normal_diff) * normal_indicator;
-		
+
 	}
 	float depth_edge = step(depth_threshold, depth_diff);
-	
+
 	float indicator = sqrt(normal_sum);
 	float normal_edge = step(normal_threshold, indicator);
-	
+
 	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
 	vec3 nearest = texture(screen_texture, nearest_uv).rgb;
-	
+
 	mat3 view_to_world_normal_mat = mat3(
 		INV_VIEW_MATRIX[0].xyz,
 		INV_VIEW_MATRIX[1].xyz,
 		INV_VIEW_MATRIX[2].xyz
 	);
 	float ld = dot((view_to_world_normal_mat * normal), normalize(light_direction));
-	
-	
-	
+
+
+
 	vec3 edge_mix;
 	if(depth_edge > 0.0)
 		edge_mix = mix(original, nearest * darken_amount, depth_edge);
 	else
 		edge_mix = mix(original, nearest * (ld > 0.0 ? darken_amount : lighten_amount), depth_edge);
-	
+
 	ALBEDO = edge_mix*2.0;
 }
 
