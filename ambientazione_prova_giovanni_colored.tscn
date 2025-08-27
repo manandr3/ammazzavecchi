@@ -1,0 +1,134 @@
+[gd_scene load_steps=14 format=3 uid="uid://cbmcteutdur0u"]
+
+[ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://ambientazione prova Giovanni cleaned up 2.0.glb" id="1_5vcym"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ubhu"]
+albedo_color = Color(0.0759421, 0.262845, 7.21961e-08, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eufl5"]
+albedo_color = Color(3.85046e-06, 0.81514, 0.38734, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig6uc"]
+albedo_color = Color(0.413477, 0.19401, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sgyxq"]
+albedo_color = Color(0.669291, 0.750022, 0.815705, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nowd3"]
+albedo_color = Color(0.462291, 0.462291, 0.462291, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vcym"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw8ff"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arfm4"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yk86b"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vik2h"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78uo4"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pppd"]
+albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+
+[node name="ambientazione prova Giovanni cleaned up 2_0" instance=ExtResource("1_5vcym")]
+
+[node name="floor" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_6ubhu")
+
+[node name="leafs" parent="." index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="leafs_001" parent="." index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="leafs_002" parent="." index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="leafs_003" parent="." index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="leafs_004" parent="." index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="giant tree leafs" parent="." index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")
+
+[node name="trunk" parent="." index="7"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="trunk_002" parent="." index="8"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="trunk_004" parent="." index="9"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="trunk_006" parent="." index="10"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="trunk_008" parent="." index="11"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="big trunk" parent="." index="12"]
+surface_material_override/0 = SubResource("StandardMaterial3D_ig6uc")
+
+[node name="rock" parent="." index="13"]
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
+
+[node name="rock_001" parent="." index="14"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_002" parent="." index="15"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_003" parent="." index="16"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_004" parent="." index="17"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_005" parent="." index="18"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_006" parent="." index="19"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="rock_007" parent="." index="20"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
+
+[node name="wall" parent="." index="21"]
+surface_material_override/0 = SubResource("StandardMaterial3D_5vcym")
+
+[node name="wall_001" parent="." index="22"]
+surface_material_override/0 = SubResource("StandardMaterial3D_pw8ff")
+
+[node name="wall_002" parent="." index="23"]
+surface_material_override/0 = SubResource("StandardMaterial3D_arfm4")
+
+[node name="wall_003" parent="." index="24"]
+surface_material_override/0 = SubResource("StandardMaterial3D_yk86b")
+
+[node name="slabs" parent="." index="25"]
+surface_material_override/0 = SubResource("StandardMaterial3D_vik2h")
+
+[node name="stair" parent="." index="26"]
+surface_material_override/0 = SubResource("StandardMaterial3D_78uo4")
+
+[node name="stair_001" parent="." index="27"]
+surface_material_override/0 = SubResource("StandardMaterial3D_4pppd")
+
+[node name="colon" parent="." index="28"]
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
+
+[node name="colon_001" parent="." index="29"]
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
+
+[node name="colon_002" parent="." index="30"]
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")

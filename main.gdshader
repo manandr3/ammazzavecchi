@@ -6,7 +6,7 @@ uniform sampler2D depth_texture : source_color, hint_depth_texture, filter_neare
 uniform sampler2D normal_texture : source_color, hint_normal_roughness_texture, filter_nearest;
 
 uniform float depth_threshold : hint_range(0,1) = 0.05;
-uniform float normal_threshold : hint_range(0,1) = 0.6;
+uniform float normal_threshold : hint_range(0,1) = 0.05;
 
 uniform float darken_amount : hint_range(0, 1, 0.01) = 0.3;
 uniform float lighten_amount : hint_range(0, 10, 0.01) = 1.5;
@@ -89,9 +89,9 @@ void fragment() {
 	if(depth_edge > 0.0)
 		edge_mix = mix(original, nearest * darken_amount, depth_edge);
 	else
-		edge_mix = mix(original, nearest * (ld > 0.0 ? darken_amount : lighten_amount), depth_edge);
+		edge_mix = mix(original, original * (ld > 0.0 ? darken_amount : lighten_amount), normal_edge);
 
-	ALBEDO = edge_mix*2.0;
+	ALBEDO = edge_mix;
 }
 
 
