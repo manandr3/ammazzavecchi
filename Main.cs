@@ -6,6 +6,8 @@ public partial class Main : Node
 	[Export] public DirectionalLight3D DirectionalLight;
 	[Export] public MeshInstance3D TargetMesh; // Dove hai applicato lo shader
 	
+	private Vector3 light_rotation = Vector3.Zero;
+	
 	//update light direction for shader usage
 	public override void _Process(double delta)
 	{
@@ -21,10 +23,18 @@ public partial class Main : Node
 		{
 			mat.SetShaderParameter("light_direction", dir);
 		}
+		
+		var sunlight = GetNode<DirectionalLight3D>("DirectionalLight3D");
+		light_rotation.Y += 0.01f;
+		sunlight.Rotation = light_rotation;
 	}
 	
 	public override void _Ready()
 	{
+		light_rotation.X = 3;
+		light_rotation.Y = 0;
+		light_rotation.Z = 3;
+		
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		SetProcess(true);
 	}

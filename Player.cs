@@ -11,12 +11,20 @@ public partial class Player : CharacterBody3D
 	[Export]
 	public int JumpImpulse { get; set; } = 20;
 	
+	[Export]
+	public int BoostedSpeed { get; set; } = 40;
+	
 	private Vector3 _targetVelocity = Vector3.Zero;
 	private Vector3 camera_offset = Vector3.Zero;
 	private Vector3 camera_rotation = Vector3.Zero;
 	private int max_camera_zoomout = 12;
 	private int max_camera_zoomin = -3;
 	private Vector3 first_person_offset = new Vector3(x: -3.2f, y: -1f, z: -3.2f);
+	
+	private int target_speed = 0;
+	private static bool dashed;
+	private static bool doubleJumped;
+	
 	public override void _PhysicsProcess(double delta)
 	{
 		var direction = Vector3.Zero;
@@ -28,25 +36,51 @@ public partial class Player : CharacterBody3D
 				direction.X += 1.0f;
 				direction.Z -= 1.0f;
 			}
+			
 			if (Input.IsActionPressed("move_left"))
 			{
 				direction.X -= 1.0f;
 				direction.Z += 1.0f;
 			}
+			
 			if (Input.IsActionPressed("move_back"))
 			{
 				direction.Z += 1.0f;
 				direction.X += 1.0f;
 			}
+			
 			if (Input.IsActionPressed("move_forward"))
 			{
 				direction.X -= 1.0f;
 				direction.Z -= 1.0f;
 			}
-			if (IsOnFloor() && Input.IsActionPressed("jump"))
+			
+			if (Input.IsActionJustPressed("jump"))
 			{
-				_targetVelocity.Y = JumpImpulse;
+				if(IsOnFloor())
+				{
+					_targetVelocity.Y = JumpImpulse;
+					doubleJumped = false;
+				}
+				else if(!doubleJumped)
+				{
+					GD.Print("whatever");
+					_targetVelocity.Y = JumpImpulse;
+					doubleJumped = true;
+				}
+					
 			}
+			
+			if (Input.IsActionJustPressed("dash") && !dashed)
+			{
+				target_speed = BoostedSpeed;
+				dashed = true;
+				var TimerDash = GetNode<Timer>("TimerDash");
+				TimerDash.Start(1);
+			}
+			
+			if (target_speed != Speed)
+				target_speed = dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.05f)) : Speed;
 		}
 
 		
@@ -56,8 +90,8 @@ public partial class Player : CharacterBody3D
 			direction = direction.Normalized();
 		}
 		
-		_targetVelocity.X = direction.X * Speed;
-		_targetVelocity.Z = direction.Z * Speed;
+		_targetVelocity.X = direction.X * target_speed;
+		_targetVelocity.Z = direction.Z * target_speed;
 
 		// Vertical velocity
 		if (!IsOnFloor()) // If in the air, fall towards the floor. Literally gravity
@@ -149,6 +183,11 @@ public partial class Player : CharacterBody3D
 	public static float Lerp(float First, float Second, float Amount)
 	{
 		return First * (1 - Amount) + Second * Amount;
+	}
+	
+	public static void onTimerDashTimeout()
+	{
+		dashed = false;
 	}
 }
 	
