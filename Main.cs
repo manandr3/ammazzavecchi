@@ -3,9 +3,30 @@ using System;
 
 public partial class Main : Node
 {
+	[Export] public DirectionalLight3D DirectionalLight;
+	[Export] public MeshInstance3D TargetMesh; // Dove hai applicato lo shader
+	
+	//update light direction for shader usage
+	public override void _Process(double delta)
+	{
+		if (DirectionalLight == null || TargetMesh == null)
+			return;
+
+		// Ottieni la direzione della luce (asse -Z del transform)
+		Vector3 dir = -DirectionalLight.GlobalTransform.Basis.Z.Normalized();
+
+		// Aggiorna il parametro nello shader
+		var mat = TargetMesh.GetActiveMaterial(0) as ShaderMaterial;
+		if (mat != null)
+		{
+			mat.SetShaderParameter("light_direction", dir);
+		}
+	}
+	
 	public override void _Ready()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
+		SetProcess(true);
 	}
 	
 	public override void _PhysicsProcess(double delta)

@@ -64,7 +64,6 @@ public partial class Player : CharacterBody3D
 		{
 			_targetVelocity.Y -= FallAcceleration * (float)delta;
 		}
-
 		// Moving the character
 		Velocity = _targetVelocity;
 		
