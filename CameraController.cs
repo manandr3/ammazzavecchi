@@ -44,8 +44,8 @@ public partial class CameraController : Node3D
 		
 		Rotation = new Vector3
 		(
-			Mathf.LerpAngle(Rotation.X,camera_rotation.X, 0.8f),
-			Mathf.LerpAngle(Rotation.Y, camera_rotation.Y, 0.8f),
+			camera_rotation.X,
+			camera_rotation.Y,
 			0
 		);
 	}
