@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbr6s2bd62f0j"]
+[gd_scene load_steps=8 format=3 uid="uid://cbr6s2bd62f0j"]
 
 [ext_resource type="Script" uid="uid://du48yj15mvict" path="res://Player.cs" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://cnrccl5uoveyq" path="res://CameraController.cs" id="2_kne1u"]
 [ext_resource type="Shader" uid="uid://bl288g6wlq3hn" path="res://main.gdshader" id="2_kpjcp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
@@ -37,12 +38,12 @@ mesh = SubResource("CapsuleMesh_4flbx")
 
 [node name="Camera_Controller" type="Node3D" parent="."]
 top_level = true
+script = ExtResource("2_kne1u")
 
 [node name="Camera_Target" type="Node3D" parent="Camera_Controller"]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 3, 4, 3)
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 4, 4)
 
 [node name="Camera3D" type="Camera3D" parent="Camera_Controller/Camera_Target"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.455142, 0)
 current = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Camera_Controller/Camera_Target/Camera3D"]

@@ -25,15 +25,15 @@ public partial class Main : Node
 		}
 		
 		var sunlight = GetNode<DirectionalLight3D>("DirectionalLight3D");
-		light_rotation.Y += 0.01f;
+		light_rotation.Y += 0.0001f;
 		sunlight.Rotation = light_rotation;
 	}
 	
 	public override void _Ready()
 	{
-		light_rotation.X = 3;
+		light_rotation.X = 25;
 		light_rotation.Y = 0;
-		light_rotation.Z = 3;
+		light_rotation.Z = 25;
 		
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		SetProcess(true);
