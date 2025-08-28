@@ -6,7 +6,7 @@ public partial class Player : CharacterBody3D
 	public int Speed { get; set; } = 14;
 	
 	[Export]
-	public int FallAcceleration { get; set; } = 75;
+	public int FallAcceleration { get; set; } = 50;
 	
 	[Export]
 	public int JumpImpulse { get; set; } = 20;
@@ -23,14 +23,25 @@ public partial class Player : CharacterBody3D
 	
 	
 	private Vector3 _targetVelocity = Vector3.Zero;
+	private Vector3 direction = Vector3.Zero;
 	
 	private int target_speed = 0;
+	private float target_fall_acceleration = 0;
 	private static bool just_dashed;
 	private static bool just_doubleJumped;
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		var direction = Vector3.Zero;
+		direction = Vector3.Zero;
+		
+		// Vertical velocity
+		if (!IsOnFloor()) // gravity
+		{
+			if(target_speed == Speed)
+				_targetVelocity.Y -= target_fall_acceleration * (float)delta;
+		}
+		else
+			just_doubleJumped = false;
 		
 		if(Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
@@ -46,12 +57,22 @@ public partial class Player : CharacterBody3D
 			if (Input.IsActionPressed("move_forward"))
 				direction.Z += 1.0f;
 			
-			if (Input.IsActionPressed("jump") && IsOnFloor())
+			if (Input.IsActionPressed("jump"))
 			{
-				_targetVelocity.Y = JumpImpulse;
-				just_doubleJumped = false;
+				if(IsOnFloor())
+				{
+					_targetVelocity.Y = JumpImpulse;
+					just_doubleJumped = false;
+				}
+				else if(_targetVelocity.Y < 0)
+					target_fall_acceleration = 20;
+				else
+					target_fall_acceleration = FallAcceleration;
 			}
+			else
+				target_fall_acceleration = FallAcceleration;
 			
+			GD.Print(Input.IsActionJustPressed("jump")+"    "+just_doubleJumped+"     "+DoubleJump+"     "+IsOnFloor());
 			if(Input.IsActionJustPressed("jump") && !just_doubleJumped && DoubleJump && !IsOnFloor())
 			{
 				_targetVelocity.Y = JumpImpulse;
@@ -63,11 +84,11 @@ public partial class Player : CharacterBody3D
 				target_speed = BoostedSpeed;
 				just_dashed = true;
 				var TimerDash = GetNode<Timer>("TimerDash");
-				TimerDash.Start(0.1f);
+				TimerDash.Start(1f);
 			}
 			
 			if (target_speed != Speed)
-				target_speed = just_dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.05f)) : Speed;
+				target_speed = just_dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.2f)) : Speed;
 		}
 
 		
@@ -95,14 +116,10 @@ public partial class Player : CharacterBody3D
 		_targetVelocity.X = direction.X * target_speed;
 		_targetVelocity.Z = direction.Z * target_speed;
 
-		// Vertical velocity
-		if (!IsOnFloor() && target_speed == Speed) // If in the air, fall towards the floor. Literally gravity
-			_targetVelocity.Y -= FallAcceleration * (float)delta;
+		
 		
 		// Moving the character
 		Velocity = _targetVelocity;
-		
-		
 		
 		MoveAndSlide();
 	}
@@ -111,11 +128,7 @@ public partial class Player : CharacterBody3D
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
-		{
 			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-		
-		
 	}
 	
 	public static Vector3 Lerp3(Vector3 First, Vector3 Second, float Amount)

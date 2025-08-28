@@ -25,8 +25,10 @@ public partial class Main : Node
 		}
 		
 		var sunlight = GetNode<DirectionalLight3D>("DirectionalLight3D");
-		light_rotation.Y += 0.0001f;
+		light_rotation.Y += 0.1f;
 		sunlight.Rotation = light_rotation;
+		
+		GD.Print(sunlight.Rotation);
 	}
 	
 	public override void _Ready()

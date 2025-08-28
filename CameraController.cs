@@ -11,7 +11,7 @@ public partial class CameraController : Node3D
 	private Vector3 camera_rotation = Vector3.Zero;
 	private int max_camera_zoomout = 12;
 	private int max_camera_zoomin = 1;
-	private Vector3 first_person_offset = new Vector3(x: 0f, y: 3f, z: 6f);
+	private Vector3 first_person_offset = new Vector3(0, 0.5f, 0);
 	
 	
 	private static SpringArm3D SpringArm;
@@ -29,10 +29,18 @@ public partial class CameraController : Node3D
 	{
 		var Player = GetParent() as CharacterBody3D;
 		
-		GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.5f);
 		
 		SpringArm.SpringLength = camera_offset.Y;
-		Camera.Position = Lerp3(Camera.Position, Camera_Target.Position, 0.5f);
+		if(camera_offset.Z == max_camera_zoomin)
+		{
+			Camera.Position = new Vector3(0, 0, 0);
+			GlobalPosition = Player.GlobalPosition + first_person_offset;
+		}
+		else
+		{
+			Camera.Position = Lerp3(Camera.Position, Camera_Target.Position, 0.3f);
+			GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.5f);
+		}
 		
 		Rotation = new Vector3
 		(
@@ -48,8 +56,19 @@ public partial class CameraController : Node3D
 		{
 			if(@event is InputEventMouseMotion eventMouseMotion)
 			{
-				camera_rotation.Y -= eventMouseMotion.Relative.X / camera_sensitivity;
-				camera_rotation.X -= eventMouseMotion.Relative.Y / camera_sensitivity;
+				float new_rotation = camera_rotation.Y - (eventMouseMotion.Relative.X / camera_sensitivity);
+				if ( new_rotation > 2 * Mathf.Pi )
+					new_rotation -= ( 2 * Mathf.Pi );
+				else if ( new_rotation < 0 )
+					new_rotation += ( 2 * Mathf.Pi );
+				camera_rotation.Y = new_rotation;
+				
+				new_rotation = camera_rotation.X - (eventMouseMotion.Relative.Y / camera_sensitivity);
+				if ( new_rotation > Mathf.Pi/4 )
+					new_rotation = camera_rotation.X;
+				else if ( new_rotation < -Mathf.Pi/2 )
+					new_rotation = camera_rotation.X;
+				camera_rotation.X = new_rotation;
 			}
 			
 			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)

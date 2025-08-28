@@ -201,5 +201,5 @@ theme_override_font_sizes/font_size = 10
 script = ExtResource("4_1bvp3")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.926769, 0.0670269, 0.369603, -0.0610248, -0.997745, 0.0279217, 0.370641, 0.003322, 0.928771, 6.5699, 5.63357, 13.5617)
+transform = Transform3D(-0.842774, 0.0664942, 0.534144, -0.0610248, -0.997745, 0.0279217, 0.534796, -0.00906437, 0.844933, 6.5699, 5.63357, 13.5617)
 shadow_enabled = true
