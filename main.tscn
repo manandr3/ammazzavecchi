@@ -75,10 +75,9 @@ size = Vector3(2.14648, 2.11934, 1.84532)
 [sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
 size = Vector3(1.06628, 4.81467, 1.11783)
 
-[node name="Main" type="Node" node_paths=PackedStringArray("DirectionalLight", "TargetMesh")]
+[node name="Main" type="Node" node_paths=PackedStringArray("DirectionalLight")]
 script = ExtResource("1_h2yge")
 DirectionalLight = NodePath("DirectionalLight3D")
-TargetMesh = NodePath("SubViewportContainer/SubViewport/CharacterBody3D/Camera_Controller/Camera_Target/Camera3D/MeshInstance3D")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1

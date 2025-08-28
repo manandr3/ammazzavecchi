@@ -63,7 +63,7 @@ public partial class Player : CharacterBody3D
 				target_speed = BoostedSpeed;
 				just_dashed = true;
 				var TimerDash = GetNode<Timer>("TimerDash");
-				TimerDash.Start(1);
+				TimerDash.Start(0.1f);
 			}
 			
 			if (target_speed != Speed)
@@ -96,7 +96,7 @@ public partial class Player : CharacterBody3D
 		_targetVelocity.Z = direction.Z * target_speed;
 
 		// Vertical velocity
-		if (!IsOnFloor()) // If in the air, fall towards the floor. Literally gravity
+		if (!IsOnFloor() && target_speed == Speed) // If in the air, fall towards the floor. Literally gravity
 			_targetVelocity.Y -= FallAcceleration * (float)delta;
 		
 		// Moving the character
