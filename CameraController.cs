@@ -2,17 +2,19 @@ using Godot;
 
 public partial class CameraController : Node3D
 {	
-	[Export]
-	public int camera_sensitivity { get; set; } = 100;
+	[Export] public float camera_sensitivity { get; set; } = 0.002f;
+	[Export] public float MinPitch = Mathf.DegToRad(-89.99f);
+	[Export] public float MaxPitch = Mathf.DegToRad(60);
 	
 	private float _rotationY = 0f;
 	
 	private Vector3 camera_offset = new Vector3(0, 4, 4);
-	private Vector3 camera_rotation = Vector3.Zero;
 	private int max_camera_zoomout = 12;
 	private int max_camera_zoomin = 1;
 	private Vector3 first_person_offset = new Vector3(0, 0.5f, 0);
 	
+	private float _yaw = 0f;
+	private float _pitch = 0f;
 	
 	private static SpringArm3D SpringArm;
 	private static Node3D Camera_Target;
@@ -30,7 +32,7 @@ public partial class CameraController : Node3D
 		var Player = GetParent() as CharacterBody3D;
 		
 		
-		SpringArm.SpringLength = camera_offset.Y;
+		SpringArm.SpringLength = Lerp(SpringArm.SpringLength, camera_offset.Z, 0.2f);
 		if(camera_offset.Z == max_camera_zoomin)
 		{
 			Camera.Position = new Vector3(0, 0, 0);
@@ -38,78 +40,48 @@ public partial class CameraController : Node3D
 		}
 		else
 		{
-			Camera.Position = Lerp3(Camera.Position, Camera_Target.Position, 0.3f);
-			GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.5f);
+			Camera.Position = Lerp3(Camera.Position, Camera_Target.Position, 0.2f);
+			GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.2f);
 		}
 		
 		Rotation = new Vector3
 		(
-			camera_rotation.X,
-			camera_rotation.Y,
+			_pitch,
+			_yaw,
 			0
 		);
 	}
 	
-	public override void _Input(InputEvent @event)
+	public override void _UnhandledInput(InputEvent @event)
 	{
 		if(Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
 			if(@event is InputEventMouseMotion eventMouseMotion)
 			{
-				float new_rotation = camera_rotation.Y - (eventMouseMotion.Relative.X / camera_sensitivity);
-				if ( new_rotation > 2 * Mathf.Pi )
-					new_rotation -= ( 2 * Mathf.Pi );
-				else if ( new_rotation < 0 )
-					new_rotation += ( 2 * Mathf.Pi );
-				camera_rotation.Y = new_rotation;
-				
-				new_rotation = camera_rotation.X - (eventMouseMotion.Relative.Y / camera_sensitivity);
-				if ( new_rotation > Mathf.Pi/4 )
-					new_rotation = camera_rotation.X;
-				else if ( new_rotation < -Mathf.Pi/2 )
-					new_rotation = camera_rotation.X;
-				camera_rotation.X = new_rotation;
+				_yaw -= eventMouseMotion.Relative.X * camera_sensitivity;
+				_pitch = Mathf.Clamp(_pitch - eventMouseMotion.Relative.Y * camera_sensitivity, MinPitch, MaxPitch);
 			}
 			
 			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
 			{
-				switch (mouseEvent.ButtonIndex)
+				if(Input.MouseMode == Input.MouseModeEnum.Captured)
 				{
-					case MouseButton.WheelUp:
-						if(Input.MouseMode == Input.MouseModeEnum.Captured)
-						{
-							if(camera_offset.Z > max_camera_zoomin)
+					switch (mouseEvent.ButtonIndex)
+					{
+						case MouseButton.WheelUp:
+							if(camera_offset.Z != max_camera_zoomin)
 							{
-								//camera_offset.X -= 1f;
-								camera_offset.Y -= 1f;
 								camera_offset.Z -= 1f;
-								if(camera_offset.X < max_camera_zoomin + 2)
-								{
-									//camera_rotation.X += 0.1f;
-								}
 							}
-						}
-					break;
-						
-					case MouseButton.WheelDown:
-						if(Input.MouseMode == Input.MouseModeEnum.Captured)
-						{
-							if(camera_offset.Z < max_camera_zoomout)
+						break;
+							
+						case MouseButton.WheelDown:
+							if(camera_offset.Z != max_camera_zoomout)
 							{
-								//camera_offset.X += 1f;
-								camera_offset.Y += 1f;
 								camera_offset.Z += 1f;
-								if(camera_offset.Z <= 0)
-								{
-									if(camera_rotation.Z != max_camera_zoomin + 2)
-									{
-										
-										//camera_rotation.X -= 0.1f;
-									}
-								}
 							}
-						}
-					break;
+						break;
+					}
 				}
 			}
 		}
@@ -128,3 +100,81 @@ public partial class CameraController : Node3D
 		return First * (1 - Amount) + Second * Amount;
 	}
 }
+
+
+
+
+
+
+/*using Godot;
+
+public partial class CameraController : Node3D
+{
+	[Export] public float CameraSensitivity { get; set; } = 0.01f;
+	[Export] public float MinPitch = Mathf.DegToRad(-45);
+	[Export] public float MaxPitch = Mathf.DegToRad(60);
+	[Export] public float ZoomStep = 1f;
+	[Export] public float MaxZoomOut = 12f;
+	[Export] public float MaxZoomIn = 1f;
+
+	private float _yaw = 0f;
+	private float _pitch = 0f;
+
+	private Vector3 _cameraOffset = new Vector3(0, 4, 4);
+
+	private SpringArm3D _springArm;
+	private Camera3D _camera;
+	private CharacterBody3D _player;
+	private Node3D _target;
+
+	public override void _Ready()
+	{
+		_springArm = GetNode<SpringArm3D>("Spring_Arm");
+		_camera = GetNode<Camera3D>("Camera3D");
+		_target = GetNode<Node3D>("Spring_Arm/Camera_Target");
+		_player = GetParent<CharacterBody3D>();
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
+		// Attach camera controller to player position
+		GlobalPosition = _player.GlobalPosition;
+
+		// Apply rotation to the controller
+		Rotation = new Vector3(_pitch, _yaw, 0);
+		
+		// Apply zoom
+		_springArm.SpringLength = _cameraOffset.Z;
+		
+		_camera.Position = _target.Position;
+		
+	}
+
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (Input.MouseMode != Input.MouseModeEnum.Captured)
+			return;
+
+		if (@event is InputEventMouseMotion motion)
+		{
+			_yaw -= motion.Relative.X * CameraSensitivity;
+			_pitch = Mathf.Clamp(_pitch - motion.Relative.Y * CameraSensitivity, MinPitch, MaxPitch);
+		}
+
+		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+		{
+			switch (mouseEvent.ButtonIndex)
+			{
+				case MouseButton.WheelUp:
+					_cameraOffset.Z = Mathf.Max(MaxZoomIn, _cameraOffset.Z - ZoomStep);
+					GD.Print("wow  " + _cameraOffset);
+					break;
+
+				case MouseButton.WheelDown:
+					_cameraOffset.Z = Mathf.Min(MaxZoomOut, _cameraOffset.Z + ZoomStep);
+					GD.Print("wow  " + _cameraOffset);
+					break;
+			}
+		}
+	}
+}*/

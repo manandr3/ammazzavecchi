@@ -6,7 +6,7 @@ public partial class Player : CharacterBody3D
 	public int Speed { get; set; } = 14;
 	
 	[Export]
-	public int FallAcceleration { get; set; } = 50;
+	public int FallAcceleration { get; set; } = 75;
 	
 	[Export]
 	public int JumpImpulse { get; set; } = 20;
@@ -38,7 +38,7 @@ public partial class Player : CharacterBody3D
 		if (!IsOnFloor()) // gravity
 		{
 			if(target_speed == Speed)
-				_targetVelocity.Y -= target_fall_acceleration * (float)delta;
+				_targetVelocity.Y -= target_fall_acceleration * ((float)delta)/1.5f;
 		}
 		else
 			just_doubleJumped = false;
@@ -65,14 +65,13 @@ public partial class Player : CharacterBody3D
 					just_doubleJumped = false;
 				}
 				else if(_targetVelocity.Y < 0)
-					target_fall_acceleration = 20;
+					target_fall_acceleration = 5;
 				else
 					target_fall_acceleration = FallAcceleration;
 			}
 			else
 				target_fall_acceleration = FallAcceleration;
-			
-			GD.Print(Input.IsActionJustPressed("jump")+"    "+just_doubleJumped+"     "+DoubleJump+"     "+IsOnFloor());
+				
 			if(Input.IsActionJustPressed("jump") && !just_doubleJumped && DoubleJump && !IsOnFloor())
 			{
 				_targetVelocity.Y = JumpImpulse;
@@ -88,7 +87,7 @@ public partial class Player : CharacterBody3D
 			}
 			
 			if (target_speed != Speed)
-				target_speed = just_dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.2f)) : Speed;
+				target_speed = just_dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.005f)) : Speed;
 		}
 
 		
