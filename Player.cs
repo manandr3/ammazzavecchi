@@ -2,30 +2,26 @@ using Godot;
 
 public partial class Player : CharacterBody3D
 {
-	[Export]
-	public int Speed { get; set; } = 14;
+	[Export] public int Speed { get; set; } = 14;
 	
-	[Export]
-	public int FallAcceleration { get; set; } = 75;
+	[Export] public int FallAcceleration { get; set; } = 75;
 	
-	[Export]
-	public int JumpImpulse { get; set; } = 20;
+	[Export] public int JumpImpulse { get; set; } = 20;
 	
-	[Export]
-	public int BoostedSpeed { get; set; } = 40;
+	[Export] public int BoostedSpeed { get; set; } = 40;
 	
-	[Export]
-	public bool DoubleJump { get; set; } = true;
+	[Export] public bool DoubleJump { get; set; } = true;
 	
-	[Export]
-	public bool Dash { get; set; } = true;
+	[Export] public bool Dash { get; set; } = true;
+	
+	[Export] public float DashControl { get; set; } = 20f;
 	
 	
 	
 	private Vector3 _targetVelocity = Vector3.Zero;
 	private Vector3 direction = Vector3.Zero;
 	
-	private int target_speed = 0;
+	private float target_speed = 0;
 	private float target_fall_acceleration = 0;
 	private static bool just_dashed;
 	private static bool just_doubleJumped;
@@ -36,17 +32,18 @@ public partial class Player : CharacterBody3D
 		
 		// Vertical velocity
 		if (!IsOnFloor()) // gravity
-		{
-			if(target_speed == Speed)
+			if(target_speed < Speed + DashControl)
 				_targetVelocity.Y -= target_fall_acceleration * ((float)delta)/1.5f;
-		}
 		else
 			just_doubleJumped = false;
 		
+		if(target_speed < Speed + DashControl)
+			target_speed = Speed;
+			
 		if(Input.MouseMode == Input.MouseModeEnum.Captured)
 		{
 			if (Input.IsActionPressed("move_right"))
-			direction.X += 1.0f;
+				direction.X += 1.0f;
 
 			if (Input.IsActionPressed("move_left"))
 				direction.X -= 1.0f;
@@ -86,8 +83,8 @@ public partial class Player : CharacterBody3D
 				TimerDash.Start(1f);
 			}
 			
-			if (target_speed != Speed)
-				target_speed = just_dashed ? ((int)Lerp((float)target_speed, (float)Speed, 0.005f)) : Speed;
+			if (target_speed > Speed)
+				target_speed = just_dashed ? Lerp(target_speed, (float)Speed, 0.008f) : Speed;
 		}
 
 		
@@ -123,7 +120,7 @@ public partial class Player : CharacterBody3D
 		MoveAndSlide();
 	}
 	
-	//mouse wheel controller to modify camera position
+	//captures the mouse if anything is clicked
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)

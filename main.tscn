@@ -1,8 +1,9 @@
-[gd_scene load_steps=26 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=35 format=3 uid="uid://de68u7hdnog6c"]
 
 [ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="2_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://cbmcteutdur0u" path="res://ambientazione_prova_giovanni_colored.tscn" id="2_h2yge"]
+[ext_resource type="Shader" uid="uid://bu22f1q7jpw60" path="res://toon_shader.gdshader" id="2_lquwl"]
 [ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://FpsLabel.cs" id="4_1bvp3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0xm2m"]
@@ -75,10 +76,83 @@ size = Vector3(2.14648, 2.11934, 1.84532)
 [sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
 size = Vector3(1.06628, 4.81467, 1.11783)
 
+[sub_resource type="QuadMesh" id="QuadMesh_1bvp3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
+albedo_color = Color(0.197667, 1, 0.17, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+albedo_color = Color(1, 0.24, 0.24, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+albedo_color = Color(0.16, 0.16, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+albedo_color = Color(0.08, 1, 0.923333, 1)
+
+[sub_resource type="Animation" id="Animation_lquwl"]
+length = 40.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/cutS:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4, 20, 24, 28, 40),
+"transitions": PackedFloat32Array(1.68179, 0.574349, 1.8025, 1.93187, 0.517632, 2.07053),
+"update": 0,
+"values": [Vector3(3.21562, 1.49822, 1.12217), Vector3(0.316867, 2.17845, 0.50348), Vector3(-9.53019, 4.48916, -1.5982), Vector3(-9.53019, 4.48916, -1.5982), Vector3(-5.62657, 3.57313, -0.765042), Vector3(3.21562, 1.49822, 1.12217)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SubViewportContainer/SubViewport/cutS:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.966667, 20.0333, 24, 38.2333, 40),
+"transitions": PackedFloat32Array(1.41421, 0.707107, 1, 1.51572, 0.482968, 0.482968),
+"update": 0,
+"values": [Vector3(0, 0.872665, 0), Vector3(0, 0.896814, 0), Vector3(0, 1.54387, 0), Vector3(0, 1.54387, 0), Vector3(0, 0.920326, 0), Vector3(0, 0.872665, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1bvp3"]
+resource_name = "cutscene"
+length = 5.0
+loop_mode = 1
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SubViewportContainer/SubViewport/cutS")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array()
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SubViewportContainer/SubViewport/cutS:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2.5, 5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(3.21562, 1.49822, 1.12217), Vector3(-9.15524, 3.67805, -1.48011), Vector3(3.21562, 1.49822, 1.12217)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7mycd"]
+_data = {
+&"RESET": SubResource("Animation_lquwl"),
+&"cutscene": SubResource("Animation_1bvp3")
+}
+
 [node name="Main" type="Node" node_paths=PackedStringArray("DirectionalLight", "TargetMesh")]
 script = ExtResource("1_h2yge")
 DirectionalLight = NodePath("DirectionalLight3D")
 TargetMesh = NodePath("SubViewportContainer/SubViewport/CharacterBody3D/Camera_Controller/Camera3D/MeshInstance3D")
+toonShader = ExtResource("2_lquwl")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -92,7 +166,7 @@ stretch_shrink = 3
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(640, 360)
+size = Vector2i(426, 240)
 render_target_update_mode = 4
 
 [node name="Ambient" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
@@ -201,6 +275,39 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 10
 script = ExtResource("4_1bvp3")
 
+[node name="cutS" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.642787, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642787, 3.21562, 1.49822, 1.12217)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -2.2, 1, 14.1793)
+mesh = SubResource("QuadMesh_1bvp3")
+surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -8.96644, 0.352304, 19.9703)
+mesh = SubResource("QuadMesh_1bvp3")
+surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -0.569666, -0.0730286, 23.1652)
+mesh = SubResource("QuadMesh_1bvp3")
+surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, 2.74544, 1.84455, 16.5968)
+mesh = SubResource("QuadMesh_1bvp3")
+surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.842774, 0.0664942, 0.534144, -0.0610248, -0.997745, 0.0279217, 0.534796, -0.00906437, 0.844933, 6.5699, 5.63357, 13.5617)
+transform = Transform3D(0.168835, -0.905152, -0.390121, 0.979945, 0.111651, 0.165048, -0.105836, -0.410163, 0.905851, 6.5699, 5.63357, 13.5617)
 shadow_enabled = true
+shadow_blur = 0.52
+directional_shadow_max_distance = 42.5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7mycd")
+}
+autoplay = "RESET"

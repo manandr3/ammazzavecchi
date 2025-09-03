@@ -5,6 +5,7 @@ uniform sampler2D screen_texture : source_color, hint_screen_texture, filter_nea
 uniform sampler2D depth_texture : source_color, hint_depth_texture, filter_nearest;
 uniform sampler2D normal_texture : source_color, hint_normal_roughness_texture, filter_nearest;
 
+uniform float color_threshold : hint_range(0,1) = 0.05;
 uniform float depth_threshold : hint_range(0,1) = 0.05;
 uniform float normal_threshold : hint_range(0,1) = 0.05;
 
@@ -30,6 +31,7 @@ void vertex() {
 }
 
 void fragment() {
+	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
 	vec3 normal = texture(normal_texture, SCREEN_UV).rgb * 2.0 - 1.0;
 	float depth = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
 	vec2 texel_size = 1.0 / VIEWPORT_SIZE.xy;
@@ -42,12 +44,38 @@ void fragment() {
 
 	float depth_diff = 0.0;
 	float normal_sum = 0.0;
+	float color_sum = 0.0;
 	float nearest_depth = depth;
 	vec2 nearest_uv = SCREEN_UV;
 
 
 	for(int i = 0; i < 4; i++)
 	{
+		//for color edge detection
+		/*
+		vec3 c = texture(screen_texture, uvs[i]).rgb;
+		
+		vec3 color_diff = original - c;
+
+		vec3 color_edge_bias = vec3(1,1,1);
+
+		float color_bias_diff = dot(color_diff, color_edge_bias);
+		float color_indicator = smoothstep(-0.01, 0.01, color_bias_diff);
+
+		color_sum += dot(color_diff, color_diff) * color_indicator;
+	
+		color_sum += max(abs(c.r-original.r), abs(c.g-original.g));
+		color_sum += max(abs(c.b-original.b), color_sum);
+		
+		color_sum = abs(abs(c.r-original.r) - abs(c.g-original.g) - abs(c.b-original.b));
+		*/
+
+
+
+
+
+
+		//original edge detection
 		float d = get_depth(uvs[i], INV_PROJECTION_MATRIX);
 		depth_diff += depth - d;
 
@@ -63,17 +91,33 @@ void fragment() {
 		vec3 normal_edge_bias = vec3(1,1,1);
 
 		float normal_bias_diff = dot(normal_diff, normal_edge_bias);
-		float normal_indicator = smoothstep(-0.01, 0.01, normal_bias_diff);
+		float normal_indicator = smoothstep(0.5, 1, normal_bias_diff);
 
 		normal_sum += dot(normal_diff, normal_diff) * normal_indicator;
 
 	}
+	
+	//color edge detection
+	/*
+	color_sum = step(0.01, color_sum)-0.5;
+	//color_sum = color_sum > 0.7 ? 1.0 : 0.0;
+	
+	
+	//for color edge detection
+	/*float color_indicator = sqrt(color_sum);
+	float color_edge = step(color_threshold, color_indicator);
+	
+	//float color_edge = step(color_threshold, color_sum);
+	*/
+
+
+
+	//original edge detection
 	float depth_edge = step(depth_threshold, depth_diff);
 
 	float indicator = sqrt(normal_sum);
 	float normal_edge = step(normal_threshold, indicator);
-
-	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
+	
 	vec3 nearest = texture(screen_texture, nearest_uv).rgb;
 
 	mat3 view_to_world_normal_mat = mat3(
@@ -91,6 +135,12 @@ void fragment() {
 	else
 		edge_mix = mix(original, original * (ld > 0.0 ? darken_amount : lighten_amount), normal_edge);
 
+
+	//for color edge detection
+	//vec3 color_mix = mix(edge_mix, original * darken_amount, color_sum);
+	
+	//ALBEDO = mix(original, original * darken_amount, color_edge);
+	
 	ALBEDO = edge_mix;
 }
 
