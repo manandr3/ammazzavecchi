@@ -13,14 +13,12 @@ public partial class Main : Node
 	//update light direction for shader usage
 	public override void _Process(double delta)
 	{
-
+		light_rotation.Y += 0.00002f;
+		sunlight.Rotation = light_rotation;
 	}
 
 	public override void _Ready()
 	{
-		light_rotation.X = 25;
-		light_rotation.Y = 0;
-		light_rotation.Z = 25;
 
 		sunlight = GetNode<DirectionalLight3D>("DirectionalLight3D");
 
@@ -28,6 +26,10 @@ public partial class Main : Node
 		SetProcess(true);
 
 		ConvertAllMeshes(GetTree().Root);
+
+		light_rotation.X = -30 * (MathF.PI/180);
+		light_rotation.Y = -23 * (MathF.PI/180);
+		light_rotation.Y = 32 * (MathF.PI/180);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -46,8 +48,9 @@ public partial class Main : Node
 		}
 
 
-		light_rotation.Y += 0.001f;
-		sunlight.Rotation = light_rotation;
+
+
+		
 	}
 
 	public override void _Input(InputEvent @event)
@@ -66,18 +69,15 @@ public partial class Main : Node
 				var originalMaterial = mesh.GetSurfaceOverrideMaterial(0);
 				if (originalMaterial is StandardMaterial3D standardMat)
 				{
-					// Prendi il colore originale
-					Color originalColor = standardMat.AlbedoColor;
 
 					// Crea il nuovo ShaderMaterial
 					ShaderMaterial shaderMat = new ShaderMaterial();
 					shaderMat.Shader = toonShader;
-					shaderMat.SetShaderParameter("base_color", originalColor);
+					shaderMat.SetShaderParameter("light_direction", -DirectionalLight.GlobalTransform.Basis.Z.Normalized());
+					GD.Print(-DirectionalLight.GlobalTransform.Basis.Z.Normalized());
 
 					// Applica il nuovo materiale
-					mesh.SetSurfaceOverrideMaterial(0, shaderMat);
-
-					GD.Print($"Convertito: {mesh.Name} con colore {originalColor}");
+					//mesh.SetSurfaceOverrideMaterial(0, shaderMat);
 				}
 			}
         }

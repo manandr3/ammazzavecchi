@@ -3,19 +3,35 @@
 [ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://ambientazione prova Giovanni cleaned up 2.0.glb" id="1_5vcym"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ubhu"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.0759421, 0.262845, 7.21961e-08, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eufl5"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(3.85046e-06, 0.81514, 0.38734, 1)
+roughness = 0.0
+rim = 0.6
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ig6uc"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.413477, 0.19401, 0, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sgyxq"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.669291, 0.750022, 0.815705, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nowd3"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.462291, 0.462291, 0.462291, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vcym"]
 albedo_color = Color(0.3569, 0.359337, 0.43, 1)
@@ -30,10 +46,16 @@ albedo_color = Color(0.3569, 0.359337, 0.43, 1)
 albedo_color = Color(0.3569, 0.359337, 0.43, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vik2h"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78uo4"]
+diffuse_mode = 3
+specular_mode = 1
 albedo_color = Color(0.3569, 0.359337, 0.43, 1)
+roughness = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pppd"]
 albedo_color = Color(0.3569, 0.359337, 0.43, 1)

@@ -162,11 +162,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 stretch = true
-stretch_shrink = 3
+stretch_shrink = 4
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 handle_input_locally = false
-size = Vector2i(426, 240)
+size = Vector2i(320, 180)
 render_target_update_mode = 4
 
 [node name="Ambient" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
@@ -301,7 +301,8 @@ mesh = SubResource("QuadMesh_1bvp3")
 surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.168835, -0.905152, -0.390121, 0.979945, 0.111651, 0.165048, -0.105836, -0.410163, 0.905851, 6.5699, 5.63357, 13.5617)
+transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)
+light_energy = 0.322
 shadow_enabled = true
 shadow_blur = 0.52
 directional_shadow_max_distance = 42.5
@@ -311,3 +312,33 @@ libraries = {
 &"": SubResource("AnimationLibrary_7mycd")
 }
 autoplay = "RESET"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.5, 1.10424, -3.9)
+light_energy = 1.407
+shadow_enabled = true
+
+[node name="OmniLight3D2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.25429, 1.31228, 3.64625)
+light_energy = 1.407
+shadow_enabled = true
+
+[node name="OmniLight3D3" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.841344, 0.60877, -3.75916)
+light_energy = 1.407
+shadow_enabled = true
+
+[node name="OmniLight3D4" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45428, 0.320347, 3.36172)
+light_energy = 1.407
+shadow_enabled = true
+
+[node name="OmniLight3D5" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.8859, 7.46834, 4.86672)
+light_energy = 1.407
+shadow_enabled = true
+
+[node name="OmniLight3D6" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.997021, 0.0771367, 0, -0.0771367, 0.997021, -14.9627, 3.52877, -1.95701)
+light_energy = 1.407
+shadow_enabled = true

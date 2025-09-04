@@ -34,8 +34,6 @@ public partial class Player : CharacterBody3D
 		if (!IsOnFloor()) // gravity
 			if(target_speed < Speed + DashControl)
 				_targetVelocity.Y -= target_fall_acceleration * ((float)delta)/1.5f;
-		else
-			just_doubleJumped = false;
 		
 		if(target_speed < Speed + DashControl)
 			target_speed = Speed;
