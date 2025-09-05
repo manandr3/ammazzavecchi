@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cbmcteutdur0u"]
+[gd_scene load_steps=7 format=3 uid="uid://cbmcteutdur0u"]
 
 [ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://ambientazione prova Giovanni cleaned up 2.0.glb" id="1_5vcym"]
 
@@ -33,36 +33,11 @@ specular_mode = 1
 albedo_color = Color(0.462291, 0.462291, 0.462291, 1)
 roughness = 0.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vcym"]
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pw8ff"]
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_arfm4"]
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yk86b"]
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vik2h"]
-diffuse_mode = 3
-specular_mode = 1
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-roughness = 0.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_78uo4"]
-diffuse_mode = 3
-specular_mode = 1
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-roughness = 0.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4pppd"]
-albedo_color = Color(0.3569, 0.359337, 0.43, 1)
-
 [node name="ambientazione prova Giovanni cleaned up 2_0" instance=ExtResource("1_5vcym")]
 
 [node name="floor" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0)
+layers = 2
 surface_material_override/0 = SubResource("StandardMaterial3D_6ubhu")
 
 [node name="leafs" parent="." index="1"]
@@ -126,25 +101,25 @@ surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
 surface_material_override/0 = SubResource("StandardMaterial3D_nowd3")
 
 [node name="wall" parent="." index="21"]
-surface_material_override/0 = SubResource("StandardMaterial3D_5vcym")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="wall_001" parent="." index="22"]
-surface_material_override/0 = SubResource("StandardMaterial3D_pw8ff")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="wall_002" parent="." index="23"]
-surface_material_override/0 = SubResource("StandardMaterial3D_arfm4")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="wall_003" parent="." index="24"]
-surface_material_override/0 = SubResource("StandardMaterial3D_yk86b")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="slabs" parent="." index="25"]
-surface_material_override/0 = SubResource("StandardMaterial3D_vik2h")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="stair" parent="." index="26"]
-surface_material_override/0 = SubResource("StandardMaterial3D_78uo4")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="stair_001" parent="." index="27"]
-surface_material_override/0 = SubResource("StandardMaterial3D_4pppd")
+surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="colon" parent="." index="28"]
 surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")

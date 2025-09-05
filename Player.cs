@@ -1,3 +1,4 @@
+using System.Runtime.Serialization.Formatters;
 using Godot;
 
 public partial class Player : CharacterBody3D
@@ -29,13 +30,17 @@ public partial class Player : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		direction = Vector3.Zero;
-		
+
 		// Vertical velocity
 		if (!IsOnFloor()) // gravity
-			if(target_speed < Speed + DashControl)
-				_targetVelocity.Y -= target_fall_acceleration * ((float)delta)/1.5f;
+		{
+			if (target_speed < Speed + DashControl)
+				_targetVelocity.Y -= target_fall_acceleration * ((float)delta) / 1.5f;
+		}
+		else
+			_targetVelocity.Y = 0;
 		
-		if(target_speed < Speed + DashControl)
+		if (target_speed < Speed + DashControl)
 			target_speed = Speed;
 			
 		if(Input.MouseMode == Input.MouseModeEnum.Captured)
@@ -85,7 +90,7 @@ public partial class Player : CharacterBody3D
 				target_speed = just_dashed ? Lerp(target_speed, (float)Speed, 0.008f) : Speed;
 		}
 
-		
+
 
 		if (direction != Vector3.Zero)
 		{
@@ -110,8 +115,8 @@ public partial class Player : CharacterBody3D
 		_targetVelocity.X = direction.X * target_speed;
 		_targetVelocity.Z = direction.Z * target_speed;
 
-		
-		
+
+
 		// Moving the character
 		Velocity = _targetVelocity;
 		

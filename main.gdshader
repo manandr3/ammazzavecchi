@@ -12,8 +12,12 @@ uniform float normal_threshold : hint_range(0,1) = 0.05;
 uniform float darken_amount : hint_range(0, 1, 0.01) = 0.3;
 uniform float lighten_amount : hint_range(0, 10, 0.01) = 1.5;
 
+uniform float color_limitation : hint_range(2, 256) = 150.0;
+
 uniform vec3 light_direction;
 
+uniform int numero_colori = 16;
+uniform vec3 palette[16];
 
 float get_depth(vec2 screen_uv, mat4 inv_projection_matrix)
 {
@@ -31,6 +35,7 @@ void vertex() {
 }
 
 void fragment() {
+
 	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
 	vec3 normal = texture(normal_texture, SCREEN_UV).rgb * 2.0 - 1.0;
 	float depth = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);
@@ -51,31 +56,6 @@ void fragment() {
 
 	for(int i = 0; i < 4; i++)
 	{
-		//for color edge detection
-		/*
-		vec3 c = texture(screen_texture, uvs[i]).rgb;
-		
-		vec3 color_diff = original - c;
-
-		vec3 color_edge_bias = vec3(1,1,1);
-
-		float color_bias_diff = dot(color_diff, color_edge_bias);
-		float color_indicator = smoothstep(-0.01, 0.01, color_bias_diff);
-
-		color_sum += dot(color_diff, color_diff) * color_indicator;
-	
-		color_sum += max(abs(c.r-original.r), abs(c.g-original.g));
-		color_sum += max(abs(c.b-original.b), color_sum);
-		
-		color_sum = abs(abs(c.r-original.r) - abs(c.g-original.g) - abs(c.b-original.b));
-		*/
-
-
-
-
-
-
-		//original edge detection
 		float d = get_depth(uvs[i], INV_PROJECTION_MATRIX);
 		depth_diff += depth - d;
 
@@ -96,28 +76,12 @@ void fragment() {
 		normal_sum += dot(normal_diff, normal_diff) * normal_indicator;
 
 	}
-	
-	//color edge detection
-	/*
-	color_sum = step(0.01, color_sum)-0.5;
-	//color_sum = color_sum > 0.7 ? 1.0 : 0.0;
-	
-	
-	//for color edge detection
-	/*float color_indicator = sqrt(color_sum);
-	float color_edge = step(color_threshold, color_indicator);
-	
-	//float color_edge = step(color_threshold, color_sum);
-	*/
 
-
-
-	//original edge detection
 	float depth_edge = step(depth_threshold, depth_diff);
 
 	float indicator = sqrt(normal_sum);
 	float normal_edge = step(normal_threshold, indicator);
-	
+
 	vec3 nearest = texture(screen_texture, nearest_uv).rgb;
 
 	mat3 view_to_world_normal_mat = mat3(
@@ -136,12 +100,39 @@ void fragment() {
 		edge_mix = mix(original, original * (ld > 0.0 ? darken_amount : lighten_amount), normal_edge);
 
 
-	//for color edge detection
-	//vec3 color_mix = mix(edge_mix, original * darken_amount, color_sum);
-	
-	//ALBEDO = mix(original, original * darken_amount, color_edge);
-	
-	ALBEDO = edge_mix;
+	//color limitation
+
+	/*edge_mix.r = round(edge_mix.r * color_limitation) / color_limitation;
+	edge_mix.g = round(edge_mix.g * color_limitation) / color_limitation;
+	edge_mix.b = round(edge_mix.b * color_limitation) / color_limitation;*/
+
+
+
+
+
+
+	// Color quantization with the palette (this is the key change!)
+    vec3 final_quantized_color;
+    float min_distance_sq = 99999.0;
+
+    // The weights for the weighted Euclidean distance
+    vec3 weights = vec3(2.0, 4.0, 3.0);
+
+    for (int i = 0; i < numero_colori; ++i) {
+        vec3 palette_color = palette[i];
+
+        // Calculate the weighted squared Euclidean distance
+        vec3 diff = edge_mix - palette_color;
+        float distance_sq = dot(diff * weights, diff * weights);
+
+        if (distance_sq < min_distance_sq) {
+            min_distance_sq = distance_sq;
+            final_quantized_color = palette_color;
+        }
+    }
+
+    ALBEDO = final_quantized_color;
+	//ALBEDO = edge_mix;
 }
 
 

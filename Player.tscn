@@ -19,7 +19,10 @@ shader_parameter/depth_threshold = 0.05
 shader_parameter/normal_threshold = 0.6
 shader_parameter/darken_amount = 0.3
 shader_parameter/lighten_amount = 1.5
+shader_parameter/color_limitation = 54.0
 shader_parameter/light_direction = Vector3(-0.96, -0.18, 0.2)
+shader_parameter/numero_colori = 16
+shader_parameter/palette = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [sub_resource type="QuadMesh" id="QuadMesh_kpjcp"]
 material = SubResource("ShaderMaterial_h2yge")
@@ -29,6 +32,10 @@ subdivide_width = 32
 subdivide_depth = 32
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 3
+collision_mask = 3
+floor_constant_speed = true
+floor_block_on_wall = false
 script = ExtResource("1_xhfnw")
 Speed = 7
 FallAcceleration = 65
@@ -47,6 +54,7 @@ top_level = true
 script = ExtResource("2_kne1u")
 
 [node name="Spring_Arm" type="SpringArm3D" parent="Camera_Controller"]
+collision_mask = 2
 shape = SubResource("SphereShape3D_kne1u")
 
 [node name="Camera_Target" type="Node3D" parent="Camera_Controller/Spring_Arm"]

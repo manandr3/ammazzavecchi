@@ -1,80 +1,74 @@
-[gd_scene load_steps=35 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=14 format=3 uid="uid://de68u7hdnog6c"]
 
 [ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://Main.cs" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="2_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://cbmcteutdur0u" path="res://ambientazione_prova_giovanni_colored.tscn" id="2_h2yge"]
-[ext_resource type="Shader" uid="uid://bu22f1q7jpw60" path="res://toon_shader.gdshader" id="2_lquwl"]
 [ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://FpsLabel.cs" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://main_ambient.tscn" id="5_lquwl"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_0xm2m"]
-size = Vector3(3.14833, 0.343506, 15.0239)
+[sub_resource type="Shader" id="Shader_1bvp3"]
+code = "shader_type spatial;
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_lquwl"]
-size = Vector3(3.02827, 0.343506, 15.0239)
+// The base color of the object. 'source_color' provides a color picker in the editor.
+uniform vec4 albedo : source_color;
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_h2yge"]
-size = Vector3(3.74631, 0.343506, 15.0239)
+// The number of discrete steps/bands for the light. 
+// A higher number gives a smoother transition.
+uniform int steps = 2;
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_7mycd"]
-size = Vector3(3.06505, 0.343506, 15.0239)
+// The strength of the specular highlight.
+uniform float specular_strength = 0.5;
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_1bvp3"]
-size = Vector3(10.2902, 0.343506, 15.0239)
+// The smoothness of the specular highlight.
+uniform float specular_smoothness = 16.0;
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_h2yge"]
-height = 2.34546
-radius = 0.279297
+// Custom uniform for the light direction, set from a script.
+uniform vec3 light_direction;
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1bvp3"]
-height = 2.34546
-radius = 0.270996
+void fragment() {
+    // Standard lighting calculation using the dot product of the normal and light direction.
+    // This value, NdotL, ranges from -1 (fully shaded) to 1 (fully lit).
+    float NdotL = dot(NORMAL, light_direction);
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_lquwl"]
-height = 2.34546
-radius = 0.362793
+    // FIX: Clamp NdotL to a positive range (0.0 to 1.0) to prevent negative values from causing blackness.
+    NdotL = max(0.0, NdotL);
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_7mycd"]
-height = 2.34546
-radius = 0.286621
+    // --- Core Toon Shading Logic ---
+    // We quantize the NdotL value to create discrete bands of light and shadow.
+    // This is the \"cel-shading\" effect.
+    float light_band = floor(NdotL * float(steps)) / float(steps);
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_272bh"]
-height = 2.34546
-radius = 0.286621
+    // Clamp the value to ensure it stays within the 0.0 to 1.0 range.
+    light_band = clamp(light_band, 0.0, 1.0);
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_5vw27"]
-height = 3.84735
-radius = 0.765625
+    // Apply the stepped lighting to the albedo color.
+    vec3 toon_color = albedo.rgb * light_band;
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_0xm2m"]
-height = 2.05315
-radius = 0.412109
+    // --- Specular Highlight Logic ---
+    // We calculate a simple specular highlight using the same light direction.
+    vec3 view_dir = normalize(VIEW);
+    vec3 half_vector = normalize(light_direction + view_dir);
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_h2yge"]
-radius = 1.36318
+    // The dot product of the normal and the half vector gives the highlight intensity.
+    float specular_intensity = dot(NORMAL, half_vector);
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1bvp3"]
-radius = 0.269436
+    // Clamp and power the intensity to create a sharp, focused highlight.
+    specular_intensity = pow(clamp(specular_intensity, 0.0, 1.0), specular_smoothness);
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_lquwl"]
-radius = 0.383499
+    // We also step the specular highlight to match the toon shading style.
+    float specular_band = floor(specular_intensity * float(steps)) / float(steps);
+    specular_band = clamp(specular_band, 0.0, 1.0);
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_7mycd"]
-radius = 0.399795
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_272bh"]
-radius = 1.14973
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_5vw27"]
-radius = 0.358659
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_272bh"]
-size = Vector3(1.07922, 2.04404, 1.05166)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_kek77"]
-size = Vector3(2.14648, 2.11934, 1.84532)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_4c57u"]
-size = Vector3(1.06628, 4.81467, 1.11783)
+    // Combine the stepped color with the stepped specular highlight.
+    vec3 final_color = toon_color + (vec3(1.0) * specular_band * specular_strength);
+    
+    // Set the final albedo and roughness.
+    //ALBEDO = final_color;
+	ALBEDO = toon_color;
+    ROUGHNESS = 1.0;
+	
+	ALBEDO = albedo.rgb;
+}
+"
 
 [sub_resource type="QuadMesh" id="QuadMesh_1bvp3"]
 
@@ -152,7 +146,7 @@ _data = {
 script = ExtResource("1_h2yge")
 DirectionalLight = NodePath("DirectionalLight3D")
 TargetMesh = NodePath("SubViewportContainer/SubViewport/CharacterBody3D/Camera_Controller/Camera3D/MeshInstance3D")
-toonShader = ExtResource("2_lquwl")
+toonShader = SubResource("Shader_1bvp3")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -168,101 +162,6 @@ stretch_shrink = 4
 handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
-
-[node name="Ambient" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Ambient"]
-
-[node name="ambientazione prova Giovanni cleaned up 2_0" parent="SubViewportContainer/SubViewport/Ambient/MeshInstance3D" instance=ExtResource("2_h2yge")]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.73232, -0.167358, 0.00745487)
-shape = SubResource("BoxShape3D_0xm2m")
-
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(0.949272, -0.314456, 0, 0.314456, 0.949272, 0, 0, 0, 1, 1.26831, 0.314111, 0.00745487)
-shape = SubResource("BoxShape3D_lquwl")
-
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.52584, 0.773777, 0.00745487)
-shape = SubResource("BoxShape3D_h2yge")
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(0.95044, -0.310909, 0, 0.310909, 0.95044, 0, 0, 0, 1, 7.84187, 1.25991, 0.00745487)
-shape = SubResource("BoxShape3D_7mycd")
-
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.3937, 1.73569, 0.00745487)
-shape = SubResource("BoxShape3D_1bvp3")
-
-[node name="CollisionShape3D6" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51507, 0.8, -2.94653)
-shape = SubResource("CylinderShape3D_h2yge")
-
-[node name="CollisionShape3D7" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51507, 0.8, 2.41004)
-shape = SubResource("CylinderShape3D_1bvp3")
-
-[node name="CollisionShape3D8" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.99055, 1.95718, 5.60345)
-shape = SubResource("CylinderShape3D_lquwl")
-
-[node name="CollisionShape3D9" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.15383, 1.95718, -1.55056)
-shape = SubResource("CylinderShape3D_7mycd")
-
-[node name="CollisionShape3D10" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.63303, 1.95718, -5.58483)
-shape = SubResource("CylinderShape3D_272bh")
-
-[node name="CollisionShape3D11" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.7309, 3.85469, -4.54757)
-shape = SubResource("CylinderShape3D_5vw27")
-
-[node name="CollisionShape3D12" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(0.453595, -0.452958, -0.767516, 0.845805, 0.490173, 0.210582, 0.280831, -0.744688, 0.605453, 14.1257, 1.94083, -4.00962)
-shape = SubResource("CylinderShape3D_0xm2m")
-
-[node name="CollisionShape3D13" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.6, -1, -4.3)
-shape = SubResource("SphereShape3D_h2yge")
-
-[node name="CollisionShape3D14" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.753583, -0.0509456, -3.60163)
-shape = SubResource("SphereShape3D_1bvp3")
-
-[node name="CollisionShape3D15" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4303, -0.0509456, -1.79142)
-shape = SubResource("SphereShape3D_lquwl")
-
-[node name="CollisionShape3D16" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.24573, -0.0741183, 3.2691)
-shape = SubResource("SphereShape3D_7mycd")
-
-[node name="CollisionShape3D17" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.86265, 0.542362, 4.08448)
-shape = SubResource("SphereShape3D_272bh")
-
-[node name="CollisionShape3D18" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.42283, -0.247498, 3.94373)
-shape = SubResource("SphereShape3D_5vw27")
-
-[node name="CollisionShape3D19" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52826, 1.01235, 4.94057)
-shape = SubResource("BoxShape3D_272bh")
-
-[node name="CollisionShape3D20" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.14689, 1.05967, -0.457532)
-shape = SubResource("BoxShape3D_kek77")
-
-[node name="CollisionShape3D21" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.94146, 4.31426, -0.502644)
-shape = SubResource("BoxShape3D_4c57u")
-
-[node name="CollisionShape3D22" type="CollisionShape3D" parent="SubViewportContainer/SubViewport/Ambient"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.97904, 4.31426, 3.82467)
-shape = SubResource("BoxShape3D_4c57u")
 
 [node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_0xm2m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 7.98753, 0)
@@ -299,6 +198,8 @@ surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, 2.74544, 1.84455, 16.5968)
 mesh = SubResource("QuadMesh_1bvp3")
 surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
+
+[node name="main_ambient" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)
