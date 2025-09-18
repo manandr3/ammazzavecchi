@@ -16,7 +16,7 @@ uniform float color_limitation : hint_range(2, 256) = 150.0;
 
 uniform vec3 light_direction;
 
-uniform int numero_colori = 16;
+uniform int colors_count = 16;
 uniform vec3 palette[16];
 
 float get_depth(vec2 screen_uv, mat4 inv_projection_matrix)
@@ -109,30 +109,41 @@ void fragment() {
 
 
 
+	//checking if the palette has been correctly imported
+	if(palette[0] != vec3(0.0, 0.0, 0.0))
+	{
+		// Color quantization with the palette
+		vec3 final_quantized_color;
+		float min_distance_sq = 99999.0;
 
+		// The weights for the weighted Euclidean distance
+		vec3 weights = vec3(2.0, 4.0, 3.0);
 
-	// Color quantization with the palette (this is the key change!)
-    vec3 final_quantized_color;
-    float min_distance_sq = 99999.0;
+		for (int i = 0; i < colors_count; ++i) {
+			vec3 palette_color = palette[i];
 
-    // The weights for the weighted Euclidean distance
-    vec3 weights = vec3(2.0, 4.0, 3.0);
+			// Calculate the weighted squared Euclidean distance
+			vec3 diff = edge_mix - palette_color;
+			float distance_sq = dot(diff * weights, diff * weights);
 
-    for (int i = 0; i < numero_colori; ++i) {
-        vec3 palette_color = palette[i];
+			if (distance_sq < min_distance_sq) {
+				min_distance_sq = distance_sq;
+				final_quantized_color = palette_color;
+			}
+		}
 
-        // Calculate the weighted squared Euclidean distance
-        vec3 diff = edge_mix - palette_color;
-        float distance_sq = dot(diff * weights, diff * weights);
-
-        if (distance_sq < min_distance_sq) {
-            min_distance_sq = distance_sq;
-            final_quantized_color = palette_color;
-        }
-    }
-
-    ALBEDO = final_quantized_color;
-	//ALBEDO = edge_mix;
+		ALBEDO = final_quantized_color;
+	}
+	else
+	{
+		//if the palette is not provided i just clamp down the number of colors
+		edge_mix.r = round((edge_mix.r + (edge_mix.r > 0.001 && edge_mix.r < 0.05 ? 0.2 * 2.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
+		edge_mix.g = round((edge_mix.g + (edge_mix.g > 0.001 && edge_mix.g < 0.05 ? 0.2 * 4.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
+		edge_mix.b = round((edge_mix.b + (edge_mix.b > 0.001 && edge_mix.b < 0.05 ? 0.2 * 3.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
+		ALBEDO = edge_mix;
+	}
+	
+	ALBEDO = original;
 }
 
 

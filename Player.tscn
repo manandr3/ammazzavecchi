@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cbr6s2bd62f0j"]
+[gd_scene load_steps=11 format=3 uid="uid://cbr6s2bd62f0j"]
 
 [ext_resource type="Script" uid="uid://du48yj15mvict" path="res://Player.cs" id="1_xhfnw"]
 [ext_resource type="Script" uid="uid://cnrccl5uoveyq" path="res://CameraController.cs" id="2_kne1u"]
@@ -9,19 +9,18 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4flbx"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_kne1u"]
-radius = 0.2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_h2yge"]
 render_priority = 0
 shader = ExtResource("2_kpjcp")
 shader_parameter/color_threshold = 0.05
 shader_parameter/depth_threshold = 0.05
-shader_parameter/normal_threshold = 0.6
+shader_parameter/normal_threshold = 0.05
 shader_parameter/darken_amount = 0.3
 shader_parameter/lighten_amount = 1.5
-shader_parameter/color_limitation = 54.0
-shader_parameter/light_direction = Vector3(-0.96, -0.18, 0.2)
-shader_parameter/numero_colori = 16
+shader_parameter/color_limitation = 150.0
+shader_parameter/light_direction = Vector3(0, 0, 0)
+shader_parameter/colors_count = 16
 shader_parameter/palette = PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [sub_resource type="QuadMesh" id="QuadMesh_kpjcp"]
@@ -31,21 +30,24 @@ size = Vector2(2, 2)
 subdivide_width = 32
 subdivide_depth = 32
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_e80uo"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxr5p"]
+
 [node name="Player" type="CharacterBody3D"]
 collision_layer = 3
 collision_mask = 3
 floor_constant_speed = true
 floor_block_on_wall = false
 script = ExtResource("1_xhfnw")
-Speed = 7
-FallAcceleration = 65
+FallAcceleration = 80
+JumpImpulse = 30
+BoostedSpeed = 50
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_sh265")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = SubResource("CapsuleMesh_4flbx")
 
 [node name="Camera_Controller" type="Node3D" parent="."]
@@ -53,11 +55,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.31872, 0)
 top_level = true
 script = ExtResource("2_kne1u")
 
-[node name="Spring_Arm" type="SpringArm3D" parent="Camera_Controller"]
+[node name="Spring_Arm_Ground" type="SpringArm3D" parent="Camera_Controller"]
 collision_mask = 2
 shape = SubResource("SphereShape3D_kne1u")
 
-[node name="Camera_Target" type="Node3D" parent="Camera_Controller/Spring_Arm"]
+[node name="Camera_Target" type="Node3D" parent="Camera_Controller/Spring_Arm_Ground"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
 
 [node name="Camera3D" type="Camera3D" parent="Camera_Controller"]
@@ -68,8 +70,19 @@ fov = 110.0
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.87959e-07, -1.9, -4.3)
 extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_kpjcp")
-skeleton = NodePath("../../Spring_Arm/Camera_Target")
+skeleton = NodePath("../../Spring_Arm_Ground/Camera_Target")
+
+[node name="CameraCollisionsChecker" type="Area3D" parent="Camera_Controller"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera_Controller/CameraCollisionsChecker"]
+shape = SubResource("SphereShape3D_e80uo")
+
+[node name="Spring_Arm_Objects" type="SpringArm3D" parent="Camera_Controller"]
+shape = SubResource("SphereShape3D_cxr5p")
+
+[node name="Camera_Target_Collision" type="Node3D" parent="Camera_Controller/Spring_Arm_Objects"]
 
 [node name="TimerDash" type="Timer" parent="."]
 
+[connection signal="body_entered" from="Camera_Controller/CameraCollisionsChecker" to="Camera_Controller" method="OnCameraCollisionsCheckerAreaShapeEntered"]
 [connection signal="timeout" from="TimerDash" to="." method="onTimerDashTimeout"]

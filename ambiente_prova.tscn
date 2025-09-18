@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b82yp8dfdc3qb"]
+[gd_scene load_steps=9 format=3 uid="uid://b82yp8dfdc3qb"]
 
+[ext_resource type="Script" uid="uid://b3jf7ly378rys" path="res://AmbienteProva.cs" id="1_heqsi"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="1_pb2y2"]
 [ext_resource type="PackedScene" uid="uid://sse0ftkosg1r" path="res://ambiente test 2 colorATO.glb" id="1_u4wjj"]
+[ext_resource type="Shader" uid="uid://bl288g6wlq3hn" path="res://main.gdshader" id="2_lxao4"]
 [ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://FpsLabel.cs" id="3_hwypn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pb2y2"]
@@ -14,6 +16,8 @@ size = Vector3(15.3, 29.5, 20.7)
 size = Vector3(18.1, 27.4, 16.5)
 
 [node name="AmbienteProva" type="Node"]
+script = ExtResource("1_heqsi")
+toonShader = ExtResource("2_lxao4")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1

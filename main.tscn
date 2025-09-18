@@ -201,9 +201,24 @@ surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
 
 [node name="main_ambient" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
 
+[node name="main_ambient6" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, -24.15, 0, 54.05)
+
+[node name="main_ambient2" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, -24.2438, 3.83059, -21.4005)
+
+[node name="main_ambient3" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -0.000506222)
+
+[node name="main_ambient4" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -29.9505)
+
+[node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
+
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)
-light_energy = 0.322
+light_energy = 1.211
 shadow_enabled = true
 shadow_blur = 0.52
 directional_shadow_max_distance = 42.5

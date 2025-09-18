@@ -19,7 +19,6 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
-window/size/mode=2
 window/size/initial_position_type=0
 window/size/initial_position=Vector2i(50, 50)
 window/vsync/vsync_mode=0
@@ -77,3 +76,4 @@ dash={
 [physics]
 
 common/physics_ticks_per_second=240
+jolt_physics_3d/simulation/areas_detect_static_bodies=true

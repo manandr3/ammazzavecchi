@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=3 uid="uid://chl6k0ji2pkad"]
+
+[ext_resource type="PackedScene" uid="uid://b82yp8dfdc3qb" path="res://ambiente_prova.tscn" id="1_112p8"]
+[ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="2_e2u21"]
+[ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://FpsLabel.cs" id="3_bss38"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_tda05"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qn3nj"]
+albedo_color = Color(0.197667, 1, 0.17, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l6pdb"]
+albedo_color = Color(1, 0.24, 0.24, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r657h"]
+albedo_color = Color(0.16, 0.16, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0urt"]
+albedo_color = Color(0.08, 1, 0.923333, 1)
+
+[node name="Node" type="Node"]
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+stretch_shrink = 4
+
+[node name="AmbienteProva" parent="SubViewportContainer" instance=ExtResource("1_112p8")]
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(320, 180)
+render_target_update_mode = 4
+
+[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_e2u21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 7.98753, 0)
+
+[node name="FpsLabel" type="Label" parent="SubViewportContainer/SubViewport"]
+offset_right = 1.0
+offset_bottom = 23.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 10
+script = ExtResource("3_bss38")
+
+[node name="cutS" type="Camera3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(0.642787, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642787, 3.21562, 1.49822, 1.12217)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -2.2, 1, 14.1793)
+mesh = SubResource("QuadMesh_tda05")
+surface_material_override/0 = SubResource("StandardMaterial3D_qn3nj")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -8.96644, 0.352304, 19.9703)
+mesh = SubResource("QuadMesh_tda05")
+surface_material_override/0 = SubResource("StandardMaterial3D_l6pdb")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -0.569666, -0.0730286, 23.1652)
+mesh = SubResource("QuadMesh_tda05")
+surface_material_override/0 = SubResource("StandardMaterial3D_r657h")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
+transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, 2.74544, 1.84455, 16.5968)
+mesh = SubResource("QuadMesh_tda05")
+surface_material_override/0 = SubResource("StandardMaterial3D_f0urt")
