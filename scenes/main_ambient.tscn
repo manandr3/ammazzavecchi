@@ -1,6 +1,6 @@
 [gd_scene load_steps=26 format=3 uid="uid://h7lgc0lx8o5c"]
 
-[ext_resource type="PackedScene" uid="uid://cbmcteutdur0u" path="res://ambientazione_prova_giovanni_colored.tscn" id="1_2hp6e"]
+[ext_resource type="PackedScene" uid="uid://cbmcteutdur0u" path="res://scenes/ambientazione_prova_giovanni_colored.tscn" id="1_2hp6e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1fslu"]
 size = Vector3(5.1381, 0.343506, 20.803)

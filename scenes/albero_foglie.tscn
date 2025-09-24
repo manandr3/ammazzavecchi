@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://c78o51no3i5j"]
+
+[ext_resource type="PackedScene" uid="uid://cscwcktu5aq6x" path="res://scenes/modello_albero_foglie.tscn" id="1_rl4lg"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5mdrw"]
+height = 6.6875
+
+[node name="albero_foglie" type="StaticBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.43125, 0)
+shape = SubResource("CylinderShape3D_5mdrw")
+
+[node name="albero 2_0 (6)" parent="." instance=ExtResource("1_rl4lg")]

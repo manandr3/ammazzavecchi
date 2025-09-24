@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://cbr6s2bd62f0j"]
 
-[ext_resource type="Script" uid="uid://du48yj15mvict" path="res://Player.cs" id="1_xhfnw"]
-[ext_resource type="Script" uid="uid://cnrccl5uoveyq" path="res://CameraController.cs" id="2_kne1u"]
-[ext_resource type="Shader" uid="uid://bl288g6wlq3hn" path="res://main.gdshader" id="2_kpjcp"]
+[ext_resource type="Script" uid="uid://du48yj15mvict" path="res://scripts/Player.cs" id="1_xhfnw"]
+[ext_resource type="Script" uid="uid://cnrccl5uoveyq" path="res://scripts/CameraController.cs" id="2_kne1u"]
+[ext_resource type="Shader" uid="uid://bl288g6wlq3hn" path="res://shaders/main.gdshader" id="2_kpjcp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sh265"]
 
@@ -78,6 +78,7 @@ skeleton = NodePath("../../Spring_Arm_Ground/Camera_Target")
 shape = SubResource("SphereShape3D_e80uo")
 
 [node name="Spring_Arm_Objects" type="SpringArm3D" parent="Camera_Controller"]
+collision_mask = 3
 shape = SubResource("SphereShape3D_cxr5p")
 
 [node name="Camera_Target_Collision" type="Node3D" parent="Camera_Controller/Spring_Arm_Objects"]

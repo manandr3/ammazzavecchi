@@ -142,8 +142,8 @@ void fragment() {
 		edge_mix.b = round((edge_mix.b + (edge_mix.b > 0.001 && edge_mix.b < 0.05 ? 0.2 * 3.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
 		ALBEDO = edge_mix;
 	}
-	
-	ALBEDO = original;
+
+	//ALBEDO = original;
 }
 
 

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://byflxya0o2gx6"
-path="res://.godot/imported/ambientazione prova Giovanni cleaned up 2.0.glb-7802647839b3af356c1f725b703dc0b8.scn"
+uid="uid://sse0ftkosg1r"
+path="res://.godot/imported/ambiente test 2 colorATO.glb-758262b60536e277190bdcdb2f162f93.scn"
 
 [deps]
 
-source_file="res://ambientazione prova Giovanni cleaned up 2.0.glb"
-dest_files=["res://.godot/imported/ambientazione prova Giovanni cleaned up 2.0.glb-7802647839b3af356c1f725b703dc0b8.scn"]
+source_file="res://models/ambiente test 2 colorATO.glb"
+dest_files=["res://.godot/imported/ambiente test 2 colorATO.glb-758262b60536e277190bdcdb2f162f93.scn"]
 
 [params]
 

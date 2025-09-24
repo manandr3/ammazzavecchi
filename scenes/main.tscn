@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=10 format=3 uid="uid://de68u7hdnog6c"]
 
-[ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://Main.cs" id="1_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://Player.tscn" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://FpsLabel.cs" id="4_1bvp3"]
-[ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://main_ambient.tscn" id="5_lquwl"]
+[ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://scripts/Main.cs" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://scenes/Player.tscn" id="2_tefeu"]
+[ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://scripts/FpsLabel.cs" id="3_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://scenes/main_ambient.tscn" id="4_tipki"]
+[ext_resource type="PackedScene" uid="uid://c78o51no3i5j" path="res://scenes/albero_foglie.tscn" id="5_85g3d"]
 
 [sub_resource type="Shader" id="Shader_1bvp3"]
 code = "shader_type spatial;
@@ -70,20 +71,6 @@ void fragment() {
 }
 "
 
-[sub_resource type="QuadMesh" id="QuadMesh_1bvp3"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lquwl"]
-albedo_color = Color(0.197667, 1, 0.17, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
-albedo_color = Color(1, 0.24, 0.24, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
-albedo_color = Color(0.16, 0.16, 1, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
-albedo_color = Color(0.08, 1, 0.923333, 1)
-
 [sub_resource type="Animation" id="Animation_lquwl"]
 length = 40.0
 loop_mode = 1
@@ -143,7 +130,7 @@ _data = {
 }
 
 [node name="Main" type="Node" node_paths=PackedStringArray("DirectionalLight", "TargetMesh")]
-script = ExtResource("1_h2yge")
+script = ExtResource("1_tbgi4")
 DirectionalLight = NodePath("DirectionalLight3D")
 TargetMesh = NodePath("SubViewportContainer/SubViewport/CharacterBody3D/Camera_Controller/Camera3D/MeshInstance3D")
 toonShader = SubResource("Shader_1bvp3")
@@ -163,7 +150,7 @@ handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
-[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_0xm2m")]
+[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_tefeu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 7.98753, 0)
 
 [node name="FpsLabel" type="Label" parent="SubViewportContainer/SubViewport"]
@@ -172,48 +159,26 @@ offset_bottom = 23.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_font_sizes/font_size = 10
-script = ExtResource("4_1bvp3")
+script = ExtResource("3_o6xl0")
 
 [node name="cutS" type="Camera3D" parent="SubViewportContainer/SubViewport"]
 transform = Transform3D(0.642787, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642787, 3.21562, 1.49822, 1.12217)
 
-[node name="StaticBody3D" type="StaticBody3D" parent="SubViewportContainer/SubViewport"]
+[node name="main_ambient" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
-transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -2.2, 1, 14.1793)
-mesh = SubResource("QuadMesh_1bvp3")
-surface_material_override/0 = SubResource("StandardMaterial3D_lquwl")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
-transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -8.96644, 0.352304, 19.9703)
-mesh = SubResource("QuadMesh_1bvp3")
-surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
-
-[node name="MeshInstance3D3" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
-transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, -0.569666, -0.0730286, 23.1652)
-mesh = SubResource("QuadMesh_1bvp3")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
-
-[node name="MeshInstance3D4" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/StaticBody3D"]
-transform = Transform3D(9.32883, 0, 0, 0, -4.23643e-07, 1, 0, -9.69183, -4.37114e-08, 2.74544, 1.84455, 16.5968)
-mesh = SubResource("QuadMesh_1bvp3")
-surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
-
-[node name="main_ambient" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
-
-[node name="main_ambient6" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+[node name="main_ambient6" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, -24.15, 0, 54.05)
 
-[node name="main_ambient2" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+[node name="main_ambient2" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(-8.74228e-08, 0, -2, 0, 2, 0, 2, 0, -8.74228e-08, -24.2438, 3.83059, -21.4005)
 
-[node name="main_ambient3" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+[node name="main_ambient3" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -0.000506222)
 
-[node name="main_ambient4" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+[node name="main_ambient4" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -29.9505)
 
-[node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_lquwl")]
+[node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -240,21 +205,24 @@ light_energy = 1.407
 shadow_enabled = true
 
 [node name="OmniLight3D3" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.841344, 0.60877, -3.75916)
-light_energy = 1.407
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.841344, 1.60877, -3.75916)
+light_energy = 3.0
 shadow_enabled = true
 
 [node name="OmniLight3D4" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45428, 0.320347, 3.36172)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.45428, 1.72035, 3.36172)
 light_energy = 1.407
 shadow_enabled = true
 
 [node name="OmniLight3D5" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.8859, 7.46834, 4.86672)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.8859, 3.51834, 4.86672)
 light_energy = 1.407
 shadow_enabled = true
 
 [node name="OmniLight3D6" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.997021, 0.0771367, 0, -0.0771367, 0.997021, -14.9627, 3.52877, -1.95701)
-light_energy = 1.407
+transform = Transform3D(1, 0, 0, 0, 0.997021, 0.0771367, 0, -0.0771367, 0.997021, -28.1627, 5.72877, -3.30701)
+light_energy = 4.0
 shadow_enabled = true
+
+[node name="albero_foglie" parent="." instance=ExtResource("5_85g3d")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -34.95, 3.8, -3.8)
