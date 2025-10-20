@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode cull_disabled,;
+render_mode cull_disabled;
 
 varying flat vec3 flat_vertex;
 

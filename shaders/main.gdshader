@@ -19,6 +19,7 @@ uniform vec3 light_direction;
 uniform int colors_count = 16;
 uniform vec3 palette[16];
 
+
 float get_depth(vec2 screen_uv, mat4 inv_projection_matrix)
 {
 	float depth = texture(depth_texture, screen_uv).r;
@@ -29,13 +30,11 @@ float get_depth(vec2 screen_uv, mat4 inv_projection_matrix)
 }
 
 
-
 void vertex() {
 	POSITION = vec4(VERTEX.xy, 1.0, 1.0);
 }
 
 void fragment() {
-
 	vec3 original = texture(screen_texture, SCREEN_UV).rgb;
 	vec3 normal = texture(normal_texture, SCREEN_UV).rgb * 2.0 - 1.0;
 	float depth = get_depth(SCREEN_UV, INV_PROJECTION_MATRIX);

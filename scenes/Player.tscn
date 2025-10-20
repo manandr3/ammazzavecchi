@@ -78,7 +78,7 @@ skeleton = NodePath("../../Spring_Arm_Ground/Camera_Target")
 shape = SubResource("SphereShape3D_e80uo")
 
 [node name="Spring_Arm_Objects" type="SpringArm3D" parent="Camera_Controller"]
-collision_mask = 3
+collision_mask = 6
 shape = SubResource("SphereShape3D_cxr5p")
 
 [node name="Camera_Target_Collision" type="Node3D" parent="Camera_Controller/Spring_Arm_Objects"]

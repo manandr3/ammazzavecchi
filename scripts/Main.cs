@@ -118,15 +118,13 @@ public partial class Main : Node
 
 		// Aggiorna il parametro nello shader
 		var mat = TargetMesh.GetActiveMaterial(0) as ShaderMaterial;
+
+		//GD.Print(dir.Normalized());
+
 		if (mat != null)
 		{
 			mat.SetShaderParameter("light_direction", dir);
 		}
-
-
-
-
-		
 	}
 
 	public override void _Input(InputEvent @event)

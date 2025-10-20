@@ -54,9 +54,9 @@ public partial class CameraController : Node3D
 			}
 			else
 			{
-				Camera.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.2f);
-				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.2f);
-				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.2f);
+				Camera.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.1f);
+				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.1f);
+				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.1f);
 			}
 			//Camera.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.2f);
 		}
@@ -69,9 +69,9 @@ public partial class CameraController : Node3D
 			}
 			else
 			{
-				Camera.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.2f);
-				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.2f);
-				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.2f);
+				Camera.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.1f);
+				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.1f);
+				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.1f);
 			}
 		}
 		

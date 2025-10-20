@@ -38,7 +38,10 @@ public partial class Player : CharacterBody3D
 				_targetVelocity.Y -= target_fall_acceleration * ((float)delta) / 1.5f;
 		}
 		else
+        {
 			_targetVelocity.Y = 0;
+			just_doubleJumped = false;
+        }
 		
 		if (target_speed < Speed + DashControl)
 			target_speed = Speed;

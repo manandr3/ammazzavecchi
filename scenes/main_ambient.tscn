@@ -88,8 +88,8 @@ radius = 0.358659
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
 [node name="floor" type="StaticBody3D" parent="."]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="floor"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.72721, -0.167358, 1.00229)
@@ -119,6 +119,8 @@ skeleton = NodePath("")
 
 [node name="marbles" type="StaticBody3D" parent="."]
 transform = Transform3D(-0.999977, 0.00554883, -0.00394059, 0.00555555, 0.999983, -0.0016948, 0.00393112, -0.00171666, -0.999991, 0, 0, 0)
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape3D19" type="CollisionShape3D" parent="marbles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.52826, 1.01235, 4.94057)
@@ -137,6 +139,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.97904, 4.31426, 3.82467)
 shape = SubResource("BoxShape3D_d0yky")
 
 [node name="trunks" type="StaticBody3D" parent="."]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="trunks"]
 transform = Transform3D(-0.999977, 0.00554883, -0.00394059, 0.00555555, 0.999983, -0.0016948, 0.00393112, -0.00171666, -0.999991, 1.53109, 0.796563, 2.93917)
@@ -179,6 +183,8 @@ transform = Transform3D(-0.449998, 0.458602, 0.766281, 0.847835, 0.48891, 0.2052
 shape = SubResource("CylinderShape3D_udlrd")
 
 [node name="rocks" type="StaticBody3D" parent="."]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape3D13" type="CollisionShape3D" parent="rocks"]
 transform = Transform3D(-0.999977, 0.00554883, -0.00394059, 0.00555555, 0.999983, -0.0016948, 0.00393112, -0.00171666, -0.999991, 1.61136, -1.00158, 4.29539)

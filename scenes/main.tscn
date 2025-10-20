@@ -132,7 +132,7 @@ _data = {
 [node name="Main" type="Node" node_paths=PackedStringArray("DirectionalLight", "TargetMesh")]
 script = ExtResource("1_tbgi4")
 DirectionalLight = NodePath("DirectionalLight3D")
-TargetMesh = NodePath("SubViewportContainer/SubViewport/CharacterBody3D/Camera_Controller/Camera3D/MeshInstance3D")
+TargetMesh = NodePath("SubViewportContainer/SubViewport/Player/Camera_Controller/Camera3D/MeshInstance3D")
 toonShader = SubResource("Shader_1bvp3")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
@@ -150,7 +150,7 @@ handle_input_locally = false
 size = Vector2i(320, 180)
 render_target_update_mode = 4
 
-[node name="CharacterBody3D" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_tefeu")]
+[node name="Player" parent="SubViewportContainer/SubViewport" instance=ExtResource("2_tefeu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.90841, 7.98753, 0)
 
 [node name="FpsLabel" type="Label" parent="SubViewportContainer/SubViewport"]
@@ -183,7 +183,8 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)
-light_energy = 1.211
+light_color = Color(1, 0.862093, 0.620598, 1)
+light_energy = 0.449
 shadow_enabled = true
 shadow_blur = 0.52
 directional_shadow_max_distance = 42.5
