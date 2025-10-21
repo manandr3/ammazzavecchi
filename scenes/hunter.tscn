@@ -1,10 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://6f56touljaao"]
+[gd_scene load_steps=5 format=3 uid="uid://6f56touljaao"]
+
+[ext_resource type="Script" uid="uid://dw2aidymjx5j5" path="res://scripts/Hunter.cs" id="1_660ry"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ukqli"]
 radius = 8.344
 height = 34.656
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1phl"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+albedo_color = Color(1, 1, 1, 0.627451)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 4.12
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hgowg"]
 material = SubResource("StandardMaterial3D_h1phl")
@@ -12,11 +21,20 @@ radius = 0.05
 height = 200.0
 
 [node name="anchor" type="Node3D"]
+script = ExtResource("1_660ry")
 
 [node name="hunter" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -13.9, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -13.9, 0)
 mesh = SubResource("CapsuleMesh_ukqli")
 
-[node name="bullet tray" type="MeshInstance3D" parent="hunter"]
+[node name="bullet_tray" type="MeshInstance3D" parent="hunter"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 13.9, 98.15)
 mesh = SubResource("CapsuleMesh_hgowg")
+
+[node name="shooting_timer" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="bullet_travel_timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="shooting_timer" to="." method="OnShootingTimerTimeout"]
+[connection signal="timeout" from="bullet_travel_timer" to="." method="OnBulletTravelTimerTimeout"]

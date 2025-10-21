@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=11 format=3 uid="uid://de68u7hdnog6c"]
 
 [ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://scripts/Main.cs" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://scenes/Player.tscn" id="2_tefeu"]
 [ext_resource type="Script" uid="uid://b6avd2binwqkk" path="res://scripts/FpsLabel.cs" id="3_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://scenes/main_ambient.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://c78o51no3i5j" path="res://scenes/albero_foglie.tscn" id="5_85g3d"]
+[ext_resource type="PackedScene" uid="uid://6f56touljaao" path="res://scenes/hunter.tscn" id="5_tefeu"]
 
 [sub_resource type="Shader" id="Shader_1bvp3"]
 code = "shader_type spatial;
@@ -180,6 +181,9 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -29.9505)
 
 [node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
+
+[node name="anchor" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_tefeu")]
+transform = Transform3D(-4.30473e-08, 0.173648, 0.984808, 7.5904e-09, 0.984808, -0.173648, -1, 0, -4.37114e-08, -145.3, 36.05, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)
