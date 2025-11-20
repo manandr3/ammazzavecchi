@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://cbmcteutdur0u"]
+[gd_scene load_steps=11 format=3 uid="uid://cbmcteutdur0u"]
 
 [ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://models/ambientazione prova Giovanni cleaned up 2.0.glb" id="1_5vcym"]
 [ext_resource type="Texture2D" uid="uid://bfmvk2mwj2cg4" path="res://prove/grass.png" id="2_a6f58"]
-[ext_resource type="Shader" uid="uid://cj4s570wlyqc6" path="res://prove/grass.gdshader" id="3_hiwtg"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ubhu"]
 diffuse_mode = 3
@@ -44,16 +43,13 @@ diffuse_mode = 3
 specular_mode = 1
 albedo_color = Color(0, 0.419608, 0, 1)
 albedo_texture = ExtResource("2_a6f58")
+emission = Color(0, 0.14902, 0, 1)
+emission_energy_multiplier = 0.73
 billboard_mode = 1
 billboard_keep_scale = true
 proximity_fade_distance = 0.01
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_77v8f"]
-render_priority = 0
-shader = ExtResource("3_hiwtg")
-
 [sub_resource type="QuadMesh" id="QuadMesh_ye5db"]
-material = SubResource("ShaderMaterial_77v8f")
 
 [sub_resource type="MultiMesh" id="MultiMesh_a6f58"]
 transform_format = 1
@@ -161,6 +157,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="." index="31"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
 material_override = SubResource("StandardMaterial3D_111xn")
+cast_shadow = 0
 multimesh = SubResource("MultiMesh_a6f58")
 
 [node name="grass" type="MeshInstance3D" parent="." index="32"]

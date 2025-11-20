@@ -182,7 +182,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -29.9505)
 [node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
 
-[node name="anchor" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_tefeu")]
+[node name="hunter" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_tefeu")]
 transform = Transform3D(-4.30473e-08, 0.173648, 0.984808, 7.5904e-09, 0.984808, -0.173648, -1, 0, -4.37114e-08, -145.3, 36.05, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

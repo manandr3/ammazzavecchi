@@ -100,11 +100,7 @@ void fragment() {
 
 
 	//color limitation
-
-	/*edge_mix.r = round(edge_mix.r * color_limitation) / color_limitation;
-	edge_mix.g = round(edge_mix.g * color_limitation) / color_limitation;
-	edge_mix.b = round(edge_mix.b * color_limitation) / color_limitation;*/
-
+	/*
 
 
 
@@ -140,8 +136,9 @@ void fragment() {
 		edge_mix.g = round((edge_mix.g + (edge_mix.g > 0.001 && edge_mix.g < 0.05 ? 0.2 * 4.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
 		edge_mix.b = round((edge_mix.b + (edge_mix.b > 0.001 && edge_mix.b < 0.05 ? 0.2 * 3.0 : 0.0)) * float(colors_count / 3)) / float(colors_count / 3);
 		ALBEDO = edge_mix;
-	}
+	}*/
 
+	ALBEDO = edge_mix;
 	//ALBEDO = original;
 }
 

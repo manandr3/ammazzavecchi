@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://6f56touljaao"]
+[gd_scene load_steps=6 format=3 uid="uid://6f56touljaao"]
 
 [ext_resource type="Script" uid="uid://dw2aidymjx5j5" path="res://scripts/Hunter.cs" id="1_660ry"]
+[ext_resource type="PackedScene" uid="uid://dlrcjgbnm0um5" path="res://scenes/bullet.tscn" id="2_kr1wx"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ukqli"]
 radius = 8.344
@@ -10,14 +11,15 @@ height = 34.656
 transparency = 3
 alpha_hash_scale = 1.0
 alpha_antialiasing_mode = 0
-albedo_color = Color(1, 1, 1, 0.627451)
+albedo_color = Color(1, 0, 0, 0.0745098)
 emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 4.12
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 7.51
+disable_receive_shadows = true
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hgowg"]
 material = SubResource("StandardMaterial3D_h1phl")
-radius = 0.05
+radius = 0.02
 height = 200.0
 
 [node name="anchor" type="Node3D"]
@@ -28,13 +30,21 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -13
 mesh = SubResource("CapsuleMesh_ukqli")
 
 [node name="bullet_tray" type="MeshInstance3D" parent="hunter"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 13.9, 98.15)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 13.9, 100)
 mesh = SubResource("CapsuleMesh_hgowg")
 
+[node name="bullet" parent="hunter" instance=ExtResource("2_kr1wx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.9, 26.4)
+
 [node name="shooting_timer" type="Timer" parent="."]
-wait_time = 4.0
 
 [node name="bullet_travel_timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="player_ray_cast" type="RayCast3D" parent="."]
+collision_mask = 5
+debug_shape_custom_color = Color(0.541176, 0, 1, 1)
+debug_shape_thickness = 5
 
 [connection signal="timeout" from="shooting_timer" to="." method="OnShootingTimerTimeout"]
 [connection signal="timeout" from="bullet_travel_timer" to="." method="OnBulletTravelTimerTimeout"]
