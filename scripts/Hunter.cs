@@ -91,7 +91,7 @@ public partial class Hunter : Node3D
 
 			case 2:
 				ausiliar_material.Emission = new Color(1f, 1f, 1f);
-				ausiliar_material.EmissionEnergyMultiplier = 0.1f;
+				ausiliar_material.EmissionEnergyMultiplier = 3f;
 				bullet_tray_mesh.Radius = Lerp(bullet_tray_mesh.Radius, tray_initial_radius, 0.005f);
 				bullet.Visible = true;
 				counter_bullet_visibility += 1;
