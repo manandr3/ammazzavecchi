@@ -124,6 +124,14 @@ public partial class Player : CharacterBody3D
 		Velocity = _targetVelocity;
 		
 		MoveAndSlide();
+
+		/*
+		for (int index = 0; index < GetSlideCollisionCount(); index++)
+		{
+			KinematicCollision3D collision = GetSlideCollision(index);
+			if (collision.GetCollider() is Bullet bullet)
+		}
+		*/
 	}
 	
 	//captures the mouse if anything is clicked

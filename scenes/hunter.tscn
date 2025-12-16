@@ -29,12 +29,12 @@ script = ExtResource("1_660ry")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -13.9, 0)
 mesh = SubResource("CapsuleMesh_ukqli")
 
-[node name="bullet_tray" type="MeshInstance3D" parent="hunter"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 13.9, 100)
-mesh = SubResource("CapsuleMesh_hgowg")
-
 [node name="bullet" parent="hunter" instance=ExtResource("2_kr1wx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.9, 26.4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.898528, 0)
+
+[node name="bullet_tray" type="MeshInstance3D" parent="hunter"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.8902028e-08, 13.888816, 99.98379)
+mesh = SubResource("CapsuleMesh_hgowg")
 
 [node name="shooting_timer" type="Timer" parent="."]
 

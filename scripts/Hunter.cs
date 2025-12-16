@@ -15,6 +15,7 @@ public partial class Hunter : Node3D
 	private static Vector3 starting_bullet_position;
 	private static Vector3 bullet_velocity;
 	private static Vector3 new_bullet_position;
+	private static Vector3 new_bullet_tray_position;
 	private static Timer shooting_timer;
 	private static Timer bullet_travel_timer;
 	private int shooting_status; //0 waitng, 1 preparing, 2 bullet goes
@@ -81,6 +82,7 @@ public partial class Hunter : Node3D
 				ausiliar_material.Emission = new Color(1f, 0.1f, 0.1f);
 				ausiliar_material.EmissionEnergyMultiplier = 3.0f;
 				bullet_tray_mesh.Radius = Lerp(bullet_tray_mesh.Radius, tray_target_radius, 0.005f);
+				GD.Print(bullet_tray_mesh.Radius);
 				tray_white_color.A = 1f;
 				bullet.Visible = false;
 				LookAt(Player.GlobalPosition, Vector3.Up);
@@ -90,9 +92,20 @@ public partial class Hunter : Node3D
 				break;
 
 			case 2:
-				ausiliar_material.Emission = new Color(1f, 1f, 1f);
+				bullet_tray_mesh.Height = starting_bullet_position.DistanceTo(bullet.Position);
+				new_bullet_tray_position = bullet.Position;
+				new_bullet_tray_position.Z = new_bullet_tray_position.Z / 2.0f;
+				bullet_tray.Position =  new_bullet_tray_position;
+
+				if(bullet_tray_mesh.Radius < tray_initial_radius)
+				{
+					bullet_tray_mesh.Radius = tray_target_radius;
+				}
+
+				ausiliar_material.Emission = new Color(0f, 0f, 0f);
 				ausiliar_material.EmissionEnergyMultiplier = 3f;
 				bullet_tray_mesh.Radius = Lerp(bullet_tray_mesh.Radius, tray_initial_radius, 0.005f);
+				GD.Print(bullet_tray_mesh.Radius);
 				bullet.Visible = true;
 				counter_bullet_visibility += 1;
 
