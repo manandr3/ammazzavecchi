@@ -24,7 +24,7 @@ size = Vector3(1.07922, 2.04404, 1.05166)
 size = Vector3(2.14648, 2.11934, 1.84532)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_d0yky"]
-size = Vector3(1.06628, 4.89764, 1.11783)
+size = Vector3(1.06628, 5.1, 1.11783)
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_l2523"]
 height = 2.34546
@@ -131,11 +131,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.14689, 1.05967, -0.457532)
 shape = SubResource("BoxShape3D_l35jf")
 
 [node name="CollisionShape3D21" type="CollisionShape3D" parent="marbles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.94146, 4.30068, -0.502644)
+transform = Transform3D(1, -1.36424205e-11, 0, 1.0004442e-11, 1, -2.2118911e-09, 8.8475645e-09, -4.4237822e-09, 1, 9.94146, 4.250681, -0.502644)
 shape = SubResource("BoxShape3D_d0yky")
 
 [node name="CollisionShape3D22" type="CollisionShape3D" parent="marbles"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.97904, 4.31426, 3.82467)
+transform = Transform3D(1, -1.546141e-11, 0, 8.6402e-12, 1, -1.9790605e-09, 7.916242e-09, -3.958121e-09, 1, 9.97904, 4.26308, 3.8246696)
 shape = SubResource("BoxShape3D_d0yky")
 
 [node name="trunks" type="StaticBody3D" parent="."]

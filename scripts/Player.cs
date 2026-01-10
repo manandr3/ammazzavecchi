@@ -29,6 +29,7 @@ public partial class Player : CharacterBody3D
 	
 	public override void _PhysicsProcess(double delta)
 	{
+
 		direction = Vector3.Zero;
 
 		// Vertical velocity

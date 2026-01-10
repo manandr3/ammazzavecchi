@@ -14,7 +14,7 @@ public partial class AmbienteProva : Node
 
     public override void _Ready()
 	{
-
+		//I declare the palette to pass thru to the shader
 		var palette = new Godot.Collections.Array<Color>()
 		{
 			/*
@@ -50,13 +50,13 @@ public partial class AmbienteProva : Node
 			//foliage
 			/*new Color(0.0f, 0.21f, 0.08f),
 			new Color(0.0f, 0.81f, 0.38f),
-			new Color(0.0f, 0.91f, 0.58f),*/
+			new Color(0.0f, 0.91f, 0.58f),
+			*/
 
 			new Color(0.0f, 0.24f, 0.09f),
 			new Color(0.0f, 0.46f, 0.21f),
 			new Color(0.0f, 0.6f, 0.3f),
 			new Color(0.0f, 1.0f, 0.48f),
-
 
 			//trunks
 			new Color(0.10f, 0.03f, 0.0f),
@@ -81,10 +81,10 @@ public partial class AmbienteProva : Node
         };
 		
 		//if the shader is correctly detected i pass it the palette
-		var mat = TargetMesh.GetActiveMaterial(0) as ShaderMaterial;
+		var mat = TargetMesh.GetActiveMaterial(0) as ShaderMaterial; //i extract the shader from the active materials list and because i only have tha shader file in that list I can take in the fist result
 		if (mat != null)
 		{
-			mat.SetShaderParameter("palette", palette);
+			mat.SetShaderParameter("palette", palette); //the palette is a parameter of the shader that's how it is passed thru
 		}
 
 		//
@@ -93,7 +93,7 @@ public partial class AmbienteProva : Node
 		//when the game is started the mouse is captured
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 
-		SetProcess(true);
+		SetProcess(true); //it starts the _Process() functions of the various nodes in the main scene
 
 		//ConvertAllMeshes(GetTree().Root);
 		

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://6f56touljaao"]
+[gd_scene load_steps=9 format=3 uid="uid://6f56touljaao"]
 
 [ext_resource type="Script" uid="uid://dw2aidymjx5j5" path="res://scripts/Hunter.cs" id="1_660ry"]
 [ext_resource type="PackedScene" uid="uid://dlrcjgbnm0um5" path="res://scenes/bullet.tscn" id="2_kr1wx"]
@@ -22,6 +22,18 @@ material = SubResource("StandardMaterial3D_h1phl")
 radius = 0.02
 height = 200.0
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kr1wx"]
+albedo_color = Color(13.823146, 13.823146, 0, 1)
+emission_enabled = true
+emission = Color(18.892157, 18.892157, 0, 1)
+emission_energy_multiplier = 3.02
+
+[sub_resource type="SphereMesh" id="SphereMesh_amnbx"]
+material = SubResource("StandardMaterial3D_kr1wx")
+
+[sub_resource type="SphereMesh" id="SphereMesh_kr1wx"]
+material = SubResource("StandardMaterial3D_kr1wx")
+
 [node name="anchor" type="Node3D"]
 script = ExtResource("1_660ry")
 
@@ -29,22 +41,45 @@ script = ExtResource("1_660ry")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -13.9, 0)
 mesh = SubResource("CapsuleMesh_ukqli")
 
-[node name="bullet" parent="hunter" instance=ExtResource("2_kr1wx")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 13.898528, 0)
-
-[node name="bullet_tray" type="MeshInstance3D" parent="hunter"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.8902028e-08, 13.888816, 99.98379)
-mesh = SubResource("CapsuleMesh_hgowg")
-
 [node name="shooting_timer" type="Timer" parent="."]
 
 [node name="bullet_travel_timer" type="Timer" parent="."]
 wait_time = 0.5
 
 [node name="player_ray_cast" type="RayCast3D" parent="."]
-collision_mask = 5
+visible = false
+target_position = Vector3(0, 0, -2000)
+collision_mask = 6
+hit_from_inside = true
+collide_with_areas = true
 debug_shape_custom_color = Color(0.541176, 0, 1, 1)
 debug_shape_thickness = 5
 
+[node name="bullet" parent="." instance=ExtResource("2_kr1wx")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, -0.001, 25)
+
+[node name="bullet_tray" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 3.8213726e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, 0, 0, -100)
+mesh = SubResource("CapsuleMesh_hgowg")
+skeleton = NodePath("../hunter")
+
+[node name="CollisionTarget" type="Node3D" parent="."]
+transform = Transform3D(-0.99999994, 0, 8.742277e-08, 0, 1, 0, -8.742277e-08, 0, -0.99999994, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionTarget"]
+mesh = SubResource("SphereMesh_amnbx")
+
+[node name="SpringArmCollision" type="SpringArm3D" parent="."]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+collision_mask = 6
+spring_length = 1000.0
+
+[node name="CollisionPoint" type="Node3D" parent="SpringArmCollision"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpringArmCollision/CollisionPoint"]
+mesh = SubResource("SphereMesh_kr1wx")
+
 [connection signal="timeout" from="shooting_timer" to="." method="OnShootingTimerTimeout"]
 [connection signal="timeout" from="bullet_travel_timer" to="." method="OnBulletTravelTimerTimeout"]
+[connection signal="BulletHitArea" from="bullet" to="." method="OnBulletHitArea"]
+[connection signal="BulletHitBody" from="bullet" to="." method="OnBulletHitBody"]

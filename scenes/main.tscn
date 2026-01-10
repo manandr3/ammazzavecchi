@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=10 format=3 uid="uid://de68u7hdnog6c"]
 
 [ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://scripts/Main.cs" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://scenes/Player.tscn" id="2_tefeu"]
@@ -6,71 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://scenes/main_ambient.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://c78o51no3i5j" path="res://scenes/albero_foglie.tscn" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://6f56touljaao" path="res://scenes/hunter.tscn" id="5_tefeu"]
-
-[sub_resource type="Shader" id="Shader_1bvp3"]
-code = "shader_type spatial;
-
-// The base color of the object. 'source_color' provides a color picker in the editor.
-uniform vec4 albedo : source_color;
-
-// The number of discrete steps/bands for the light. 
-// A higher number gives a smoother transition.
-uniform int steps = 2;
-
-// The strength of the specular highlight.
-uniform float specular_strength = 0.5;
-
-// The smoothness of the specular highlight.
-uniform float specular_smoothness = 16.0;
-
-// Custom uniform for the light direction, set from a script.
-uniform vec3 light_direction;
-
-void fragment() {
-    // Standard lighting calculation using the dot product of the normal and light direction.
-    // This value, NdotL, ranges from -1 (fully shaded) to 1 (fully lit).
-    float NdotL = dot(NORMAL, light_direction);
-
-    // FIX: Clamp NdotL to a positive range (0.0 to 1.0) to prevent negative values from causing blackness.
-    NdotL = max(0.0, NdotL);
-
-    // --- Core Toon Shading Logic ---
-    // We quantize the NdotL value to create discrete bands of light and shadow.
-    // This is the \"cel-shading\" effect.
-    float light_band = floor(NdotL * float(steps)) / float(steps);
-
-    // Clamp the value to ensure it stays within the 0.0 to 1.0 range.
-    light_band = clamp(light_band, 0.0, 1.0);
-
-    // Apply the stepped lighting to the albedo color.
-    vec3 toon_color = albedo.rgb * light_band;
-
-    // --- Specular Highlight Logic ---
-    // We calculate a simple specular highlight using the same light direction.
-    vec3 view_dir = normalize(VIEW);
-    vec3 half_vector = normalize(light_direction + view_dir);
-
-    // The dot product of the normal and the half vector gives the highlight intensity.
-    float specular_intensity = dot(NORMAL, half_vector);
-
-    // Clamp and power the intensity to create a sharp, focused highlight.
-    specular_intensity = pow(clamp(specular_intensity, 0.0, 1.0), specular_smoothness);
-
-    // We also step the specular highlight to match the toon shading style.
-    float specular_band = floor(specular_intensity * float(steps)) / float(steps);
-    specular_band = clamp(specular_band, 0.0, 1.0);
-
-    // Combine the stepped color with the stepped specular highlight.
-    vec3 final_color = toon_color + (vec3(1.0) * specular_band * specular_strength);
-    
-    // Set the final albedo and roughness.
-    //ALBEDO = final_color;
-	ALBEDO = toon_color;
-    ROUGHNESS = 1.0;
-	
-	ALBEDO = albedo.rgb;
-}
-"
 
 [sub_resource type="Animation" id="Animation_lquwl"]
 length = 40.0
@@ -82,10 +17,10 @@ tracks/0/path = NodePath("SubViewportContainer/SubViewport/cutS:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 4, 20, 24, 28, 40),
-"transitions": PackedFloat32Array(1.68179, 0.574349, 1.8025, 1.93187, 0.517632, 2.07053),
+"times": PackedFloat32Array(0, 6.733333, 20.033333, 21.333334, 24, 28, 40),
+"transitions": PackedFloat32Array(1.9999969, 0.5176324, 1.8025011, 0.5176324, 1.93187, 0.517632, 2.07053),
 "update": 0,
-"values": [Vector3(3.21562, 1.49822, 1.12217), Vector3(0.316867, 2.17845, 0.50348), Vector3(-9.53019, 4.48916, -1.5982), Vector3(-9.53019, 4.48916, -1.5982), Vector3(-5.62657, 3.57313, -0.765042), Vector3(3.21562, 1.49822, 1.12217)]
+"values": [Vector3(3.21562, 1.49822, 1.12217), Vector3(-5.057632, 4.849, -3.019734), Vector3(-19.48019, 7.23916, -3.7482), Vector3(-5.057632, 4.849, -3.019734), Vector3(-9.53019, 4.48916, -1.5982), Vector3(-5.62657, 3.57313, -0.765042), Vector3(3.21562, 1.49822, 1.12217)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -94,7 +29,7 @@ tracks/1/path = NodePath("SubViewportContainer/SubViewport/cutS:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.966667, 20.0333, 24, 38.2333, 40),
+"times": PackedFloat32Array(0, 0.73333335, 20.0333, 24, 38.2333, 40),
 "transitions": PackedFloat32Array(1.41421, 0.707107, 1, 1.51572, 0.482968, 0.482968),
 "update": 0,
 "values": [Vector3(0, 0.872665, 0), Vector3(0, 0.896814, 0), Vector3(0, 1.54387, 0), Vector3(0, 1.54387, 0), Vector3(0, 0.920326, 0), Vector3(0, 0.872665, 0)]
@@ -134,7 +69,6 @@ _data = {
 script = ExtResource("1_tbgi4")
 DirectionalLight = NodePath("DirectionalLight3D")
 TargetMesh = NodePath("SubViewportContainer/SubViewport/Player/Camera_Controller/Camera3D/MeshInstance3D")
-toonShader = SubResource("Shader_1bvp3")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 texture_filter = 1
@@ -163,7 +97,7 @@ theme_override_font_sizes/font_size = 10
 script = ExtResource("3_o6xl0")
 
 [node name="cutS" type="Camera3D" parent="SubViewportContainer/SubViewport"]
-transform = Transform3D(0.642787, 0, 0.766045, 0, 1, 0, -0.766045, 0, 0.642787, 3.21562, 1.49822, 1.12217)
+transform = Transform3D(0.64278734, 0, 0.7660447, 0, 1, 0, -0.7660447, 0, 0.64278734, 3.21562, 1.49822, 1.12217)
 
 [node name="main_ambient" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 
@@ -179,8 +113,35 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -0.0005062
 [node name="main_ambient4" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -29.9505)
 
+[node name="main_ambient8" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, -59.9505)
+
 [node name="main_ambient5" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 29.8495)
+
+[node name="main_ambient7" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, -45.6438, 3.83059, 59.849503)
+
+[node name="main_ambient9" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -123.743805, 3.83059, 59.849503)
+
+[node name="main_ambient10" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -123.743805, 3.83059, 29.8495)
+
+[node name="main_ambient11" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -123.743805, 3.83059, -0.15050048)
+
+[node name="main_ambient12" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -123.743805, 3.83059, -30.150501)
+
+[node name="main_ambient13" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, -69.743805, 3.83059, -114.000496)
+
+[node name="main_ambient14" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-8.742278e-08, 0, 2, 0, 2, 0, -2, 0, -8.742278e-08, -39.743805, 3.83059, -114.000496)
+
+[node name="main_ambient15" parent="SubViewportContainer/SubViewport" instance=ExtResource("4_tipki")]
+transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -123.7938, 3.83059, -60.150494)
 
 [node name="hunter" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_tefeu")]
 transform = Transform3D(-4.30473e-08, 0.173648, 0.984808, 7.5904e-09, 0.984808, -0.173648, -1, 0, -4.37114e-08, -145.3, 36.05, 0)
