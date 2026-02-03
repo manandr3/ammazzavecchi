@@ -30,7 +30,7 @@ public partial class Hunter : Node3D
 	private static Timer bullet_travel_timer;
 	private int shooting_status; //0 waitng, 1 preparing, 2 bullet goes
 	private int counter_bullet_visibility; //used to determine for how long the bullet tray is visible after passing by
-	private StandardMaterial3D ausiliar_material;
+	private StandardMaterial3D ausiliar_material; //bullet trail's material
 	private Color tray_red_color;
 	private Color tray_white_color;
 	public override void _Ready()
@@ -107,9 +107,7 @@ public partial class Hunter : Node3D
 
 				if(counter_bullet_visibility == 0)
 				{
-					
 					GD.Print("\n\n");
-
 					bullet.Visible = true;
 				}
 
@@ -178,7 +176,7 @@ public partial class Hunter : Node3D
 						bullet.GlobalPosition = new_bullet_position;
 					}
 
-					bullet_tray_mesh.Height = starting_bullet_position.DistanceTo(bullet.Position)*2;
+					bullet_tray_mesh.Height = starting_bullet_position.DistanceTo(bullet.Position);
 					new_bullet_tray_position = bullet.Position;
 					new_bullet_tray_position.Z = new_bullet_tray_position.Z / 2.0f;
 					bullet_tray.Position =  new_bullet_tray_position;
