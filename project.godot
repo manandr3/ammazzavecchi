@@ -27,6 +27,10 @@ window/vsync/vsync_mode=0
 
 project/assembly_name="progettovecchi"
 
+[gui]
+
+theme/custom_font="uid://d3katue63f8oq"
+
 [input]
 
 move_forward={
