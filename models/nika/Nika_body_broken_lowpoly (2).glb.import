@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://57pe72vf0sk5"
-path="res://.godot/imported/albero 2.0 (6).glb-12cc76a49a1069c7b1618a98526e4893.scn"
+uid="uid://dd7rt7mwtkfny"
+path="res://.godot/imported/Nika_body_broken_lowpoly (2).glb-4a6149f928f37f7b91ad8ffe0df51f82.scn"
 
 [deps]
 
-source_file="res://models/albero 2.0 (6).glb"
-dest_files=["res://.godot/imported/albero 2.0 (6).glb-12cc76a49a1069c7b1618a98526e4893.scn"]
+source_file="res://models/nika/Nika_body_broken_lowpoly (2).glb"
+dest_files=["res://.godot/imported/Nika_body_broken_lowpoly (2).glb-4a6149f928f37f7b91ad8ffe0df51f82.scn"]
 
 [params]
 
@@ -38,5 +38,5 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={}
-gltf/naming_version=1
+gltf/naming_version=2
 gltf/embedded_image_handling=1

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="progettovecchi"
 run/main_scene="uid://de68u7hdnog6c"
-config/features=PackedStringArray("4.4", "C#", "Forward Plus")
+config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
@@ -26,6 +26,10 @@ window/vsync/vsync_mode=0
 [dotnet]
 
 project/assembly_name="progettovecchi"
+
+[gui]
+
+theme/custom_font="uid://d3katue63f8oq"
 
 [input]
 
@@ -75,6 +79,7 @@ dash={
 3d_physics/layer_1="player"
 3d_physics/layer_2="floor"
 3d_physics/layer_3="objects"
+3d_physics/layer_4="Bullet"
 
 [physics]
 

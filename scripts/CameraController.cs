@@ -36,6 +36,7 @@ public partial class CameraController : Node3D
 	
 	public override void _PhysicsProcess(double delta)
 	{
+
 		var Player = GetParent() as CharacterBody3D;
 
 		if (CameraCollided && CameraTarget.Position == CameraTargetCollision.Position)
@@ -58,7 +59,6 @@ public partial class CameraController : Node3D
 				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.1f);
 				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.1f);
 			}
-			//Camera.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.2f);
 		}
 		else
 		{
@@ -140,81 +140,3 @@ public partial class CameraController : Node3D
 		return First * (1 - Amount) + Second * Amount;
 	}
 }
-
-
-
-
-
-
-/*using Godot;
-
-public partial class CameraController : Node3D
-{
-	[Export] public float CameraSensitivity { get; set; } = 0.01f;
-	[Export] public float MinPitch = Mathf.DegToRad(-45);
-	[Export] public float MaxPitch = Mathf.DegToRad(60);
-	[Export] public float ZoomStep = 1f;
-	[Export] public float MaxZoomOut = 12f;
-	[Export] public float MaxZoomIn = 1f;
-
-	private float _yaw = 0f;
-	private float _pitch = 0f;
-
-	private Vector3 _cameraOffset = new Vector3(0, 4, 4);
-
-	private SpringArm3D _springArm;
-	private Camera3D _camera;
-	private CharacterBody3D _player;
-	private Node3D _target;
-
-	public override void _Ready()
-	{
-		_springArm = GetNode<SpringArm3D>("Spring_Arm");
-		_camera = GetNode<Camera3D>("Camera3D");
-		_target = GetNode<Node3D>("Spring_Arm/Camera_Target");
-		_player = GetParent<CharacterBody3D>();
-	}
-
-	public override void _PhysicsProcess(double delta)
-	{
-		// Attach camera controller to player position
-		GlobalPosition = _player.GlobalPosition;
-
-		// Apply rotation to the controller
-		Rotation = new Vector3(_pitch, _yaw, 0);
-		
-		// Apply zoom
-		_springArm.SpringLength = _cameraOffset.Z;
-		
-		_camera.Position = _target.Position;
-		
-	}
-
-	public override void _UnhandledInput(InputEvent @event)
-	{
-		if (Input.MouseMode != Input.MouseModeEnum.Captured)
-			return;
-
-		if (@event is InputEventMouseMotion motion)
-		{
-			_yaw -= motion.Relative.X * CameraSensitivity;
-			_pitch = Mathf.Clamp(_pitch - motion.Relative.Y * CameraSensitivity, MinPitch, MaxPitch);
-		}
-
-		if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
-		{
-			switch (mouseEvent.ButtonIndex)
-			{
-				case MouseButton.WheelUp:
-					_cameraOffset.Z = Mathf.Max(MaxZoomIn, _cameraOffset.Z - ZoomStep);
-					GD.Print("wow  " + _cameraOffset);
-					break;
-
-				case MouseButton.WheelDown:
-					_cameraOffset.Z = Mathf.Min(MaxZoomOut, _cameraOffset.Z + ZoomStep);
-					GD.Print("wow  " + _cameraOffset);
-					break;
-			}
-		}
-	}
-}*/

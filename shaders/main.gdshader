@@ -99,6 +99,18 @@ void fragment() {
 		edge_mix = mix(original, original * (ld > 0.0 ? darken_amount : lighten_amount), normal_edge);
 
 
+
+
+	ALBEDO = edge_mix;
+	//ALBEDO = original;
+}
+
+
+
+
+
+
+
 	//color limitation
 	/*
 
@@ -138,9 +150,11 @@ void fragment() {
 		ALBEDO = edge_mix;
 	}*/
 
-	ALBEDO = edge_mix;
-	//ALBEDO = original;
-}
+
+
+
+
+
 
 
 
