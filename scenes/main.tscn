@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://de68u7hdnog6c"]
+[gd_scene load_steps=14 format=3 uid="uid://de68u7hdnog6c"]
 
 [ext_resource type="Script" uid="uid://cm5gry3adi78i" path="res://scripts/Main.cs" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cbr6s2bd62f0j" path="res://scenes/Player.tscn" id="2_tefeu"]
@@ -6,7 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://h7lgc0lx8o5c" path="res://scenes/main_ambient.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://c78o51no3i5j" path="res://scenes/albero_foglie.tscn" id="5_85g3d"]
 [ext_resource type="PackedScene" uid="uid://6f56touljaao" path="res://scenes/hunter.tscn" id="5_tefeu"]
+[ext_resource type="Texture2D" uid="uid://dbgnmjhf5j1tt" path="res://prove/transparency texture.png" id="6_tipki"]
 [ext_resource type="PackedScene" uid="uid://dd7rt7mwtkfny" path="res://models/nika/Nika_body_broken_lowpoly (2).glb" id="7_o6xl0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_85g3d"]
+size = Vector3(6, 6, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_choun"]
+render_priority = 2
+transparency = 1
+albedo_color = Color(0.15236586, 0.27176774, 0.668696, 1)
+albedo_texture = ExtResource("6_tipki")
 
 [sub_resource type="Animation" id="Animation_lquwl"]
 length = 40.0
@@ -147,7 +157,13 @@ transform = Transform3D(-2, 0, -1.7484555e-07, 0, 2, 0, 1.7484555e-07, 0, -2, -1
 [node name="hunter" parent="SubViewportContainer/SubViewport" instance=ExtResource("5_tefeu")]
 transform = Transform3D(-4.30473e-08, 0.173648, 0.984808, 7.5904e-09, 0.984808, -0.173648, -1, 0, -4.37114e-08, -145.3, 36.05, 0)
 
-[node name="Node3D" type="Node3D" parent="SubViewportContainer/SubViewport"]
+[node name="Block" type="Node3D" parent="SubViewportContainer/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 8.627827, -4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SubViewportContainer/SubViewport/Block"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5281811)
+mesh = SubResource("BoxMesh_85g3d")
+surface_material_override/0 = SubResource("StandardMaterial3D_choun")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.879474, -0.330787, -0.342207, 0.468659, 0.727218, 0.501511, 0.0829657, -0.601444, 0.794596, 6.5699, 5.63357, 13.5617)

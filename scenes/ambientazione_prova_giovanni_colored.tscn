@@ -8,8 +8,9 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ubhu"]
 diffuse_mode = 3
 specular_mode = 1
-albedo_color = Color(0, 0.419608, 0, 1)
-roughness = 0.0
+albedo_color = Color(0.09019608, 0.26666668, 0.08627451, 1)
+metallic = 0.1
+roughness = 0.5
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eufl5"]
 diffuse_mode = 3
@@ -41,8 +42,10 @@ render_priority = 1
 shader = ExtResource("4_hiwtg")
 shader_parameter/albedo = Color(0, 0.419608, 0, 1)
 shader_parameter/texture_albedo = ExtResource("2_a6f58")
-shader_parameter/wind_speed = 1.0
-shader_parameter/wind_strength = 0.2
+shader_parameter/wind_speed = 2.0
+shader_parameter/wind_strength = 0.15
+shader_parameter/tilt_blend = 0.6000000285
+shader_parameter/random_lean_strength = 0.0
 
 [sub_resource type="MultiMesh" id="MultiMesh_hiwtg"]
 transform_format = 1
@@ -148,7 +151,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 surface_material_override/0 = SubResource("StandardMaterial3D_sgyxq")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="." index="31"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.005, 0)
 material_override = SubResource("ShaderMaterial_a6f58")
 cast_shadow = 0
 multimesh = SubResource("MultiMesh_hiwtg")
