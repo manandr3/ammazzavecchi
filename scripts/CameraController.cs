@@ -11,7 +11,7 @@ public partial class CameraController : Node3D
 	private Vector3 camera_offset = new Vector3(0, 4, 4);
 	private int max_camera_zoomout = 12;
 	private int max_camera_zoomin = 1;
-	private Vector3 first_person_offset = new Vector3(0, 1.0f, 0);
+	private Vector3 first_person_offset = new Vector3(0, 1f, 0);
 	
 	private float _yaw = 0f;
 	private float _pitch = 0f;

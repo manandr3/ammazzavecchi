@@ -1,16 +1,19 @@
-[gd_scene load_steps=12 format=3 uid="uid://cbmcteutdur0u"]
+[gd_scene load_steps=13 format=3 uid="uid://cbmcteutdur0u"]
 
 [ext_resource type="PackedScene" uid="uid://byflxya0o2gx6" path="res://models/ambientazione prova Giovanni cleaned up 2.0.glb" id="1_5vcym"]
+[ext_resource type="Shader" uid="uid://cp3b56e8kklmd" path="res://shaders/floor.gdshader" id="2_77v8f"]
 [ext_resource type="Texture2D" uid="uid://bfmvk2mwj2cg4" path="res://prove/grass.png" id="2_a6f58"]
 [ext_resource type="ArrayMesh" uid="uid://b13cg7m274kq2" path="res://prove/cubo obj.obj" id="3_a6f58"]
 [ext_resource type="Shader" uid="uid://qv8bgblenj5d" path="res://shaders/grass.gdshader" id="4_hiwtg"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ubhu"]
-diffuse_mode = 3
-specular_mode = 1
-albedo_color = Color(0.09019608, 0.26666668, 0.08627451, 1)
-metallic = 0.1
-roughness = 0.5
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ye5db"]
+render_priority = 1
+shader = ExtResource("2_77v8f")
+shader_parameter/albedo = Color(0, 0.34901962, 0, 1)
+shader_parameter/wind_speed = 2.0
+shader_parameter/wind_strength = 0.15
+shader_parameter/tilt_blend = 0.3
+shader_parameter/random_lean_strength = 0.3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eufl5"]
 diffuse_mode = 3
@@ -40,7 +43,7 @@ roughness = 0.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a6f58"]
 render_priority = 1
 shader = ExtResource("4_hiwtg")
-shader_parameter/albedo = Color(0, 0.419608, 0, 1)
+shader_parameter/albedo = Color(0, 0.34901962, 0, 1)
 shader_parameter/texture_albedo = ExtResource("2_a6f58")
 shader_parameter/wind_speed = 2.0
 shader_parameter/wind_strength = 0.15
@@ -58,7 +61,7 @@ buffer = PackedFloat32Array(0, 0, 0.4863994, 14.434635, 0, 0.4863994, 0, -0.1432
 [node name="floor" parent="." index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.53674e-07, 0)
 layers = 2
-surface_material_override/0 = SubResource("StandardMaterial3D_6ubhu")
+surface_material_override/0 = SubResource("ShaderMaterial_ye5db")
 
 [node name="leafs" parent="." index="1"]
 surface_material_override/0 = SubResource("StandardMaterial3D_eufl5")

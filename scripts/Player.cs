@@ -26,10 +26,19 @@ public partial class Player : CharacterBody3D
 	private float target_fall_acceleration = 0;
 	private static bool just_dashed;
 	private static bool just_doubleJumped;
+	private static Node3D bean_mesh;
+	private static Node3D camera_controller;
+
+
+	public override void _Ready()
+	{
+		bean_mesh = GetNode<Node3D>("bean");
+		camera_controller = GetNode<Node3D>("Camera_Controller");
+	}
 	
 	public override void _PhysicsProcess(double delta)
 	{
-
+		bean_mesh.RotateY(camera_controller.Rotation.Y - bean_mesh.Rotation.Y - 180 * Mathf.DegToRad(1));
 		direction = Vector3.Zero;
 
 		// Vertical velocity
