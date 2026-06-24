@@ -102,6 +102,8 @@ void fragment() {
 
 
 	ALBEDO = edge_mix;
+
+
 	//ALBEDO = original;
 }
 

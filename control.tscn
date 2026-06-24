@@ -1,13 +1,55 @@
-[gd_scene load_steps=4 format=3 uid="uid://d3ms8j030gfw8"]
+[gd_scene load_steps=9 format=3 uid="uid://d3ms8j030gfw8"]
 
-[ext_resource type="FontFile" uid="uid://d3katue63f8oq" path="res://fonts/Firstfont-Regular.ttf" id="1_0fbet"]
+[sub_resource type="Gradient" id="Gradient_uchyk"]
+colors = PackedColorArray(0.8272115, 1, 0.70018446, 1, 0.35240626, 0.60067457, 5.7756904e-07, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0fbet"]
+gradient = SubResource("Gradient_uchyk")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_62e2m"]
+texture = SubResource("GradientTexture2D_0fbet")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uchyk"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uchyk"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
+content_margin_top = 16.0
+bg_color = Color(0.2026842, 0.3723958, 0.26188594, 1)
+border_width_bottom = 10
+border_color = Color(0.10287673, 0.22119293, 0.09127595, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fbet"]
+content_margin_top = 16.0
+bg_color = Color(0.20392157, 0.37254903, 0.2627451, 1)
+border_width_bottom = 10
+border_color = Color(0.106222205, 0.21351537, 0.14381787, 1)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_62e2m"]
+content_margin_top = 16.0
+bg_color = Color(0.21176471, 0.4117647, 0.19215687, 1)
+border_width_top = 10
+border_color = Color(0.101960786, 0.21960784, 0.09019608, 0)
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [sub_resource type="Theme" id="Theme_uchyk"]
-Button/fonts/font = ExtResource("1_0fbet")
-Button/styles/normal = SubResource("StyleBoxFlat_uchyk")
+Button/styles/focus = SubResource("StyleBoxEmpty_uchyk")
+Button/styles/hover = SubResource("StyleBoxFlat_uchyk")
+Button/styles/normal = SubResource("StyleBoxFlat_0fbet")
+Button/styles/pressed = SubResource("StyleBoxFlat_62e2m")
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -17,40 +59,62 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Panel" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.10233001, 0.11538812, 0.2191051, 1)
+theme_override_styles/panel = SubResource("StyleBoxTexture_62e2m")
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="btnPlay" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.323
+anchor_top = 0.32200003
+anchor_right = 0.67700005
+anchor_bottom = 0.39900002
+offset_left = -0.44000244
+offset_top = 0.15997314
+offset_right = 0.4399414
+offset_bottom = -0.27999878
 grow_horizontal = 2
-grow_vertical = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-
-[node name="btnPlay" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
 theme = SubResource("Theme_uchyk")
 theme_override_font_sizes/font_size = 70
 text = "PLAY"
+metadata/_edit_use_anchors_ = true
 
-[node name="bntSettings" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
+[node name="bntSettings" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.323
+anchor_top = 0.462
+anchor_right = 0.67700005
+anchor_bottom = 0.53800005
+offset_left = -0.44000244
+offset_top = -0.14001465
+offset_right = 0.4399414
+offset_bottom = 0.13995361
+grow_horizontal = 2
+grow_vertical = 2
 theme = SubResource("Theme_uchyk")
 theme_override_font_sizes/font_size = 70
 text = "SETTINGS"
 
-[node name="btnExit" type="Button" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
+[node name="btnExit" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32200003
+anchor_top = 0.60400003
+anchor_right = 0.67800003
+anchor_bottom = 0.68100005
+offset_left = -0.16003418
+offset_top = 0.1199646
+offset_right = 0.15997314
+offset_bottom = -0.32003784
+grow_horizontal = 2
+grow_vertical = 0
 theme = SubResource("Theme_uchyk")
 theme_override_font_sizes/font_size = 70
 text = "EXIT"

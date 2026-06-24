@@ -17,6 +17,9 @@ float hash(vec2 p) {
 }
 
 void vertex() {
+	
+
+	
 	// 1. POSITION AND SCALE
 	vec3 world_pos = MODEL_MATRIX[3].xyz;
 	float scale_x = length(MODEL_MATRIX[0].xyz);
@@ -79,11 +82,12 @@ void vertex() {
 
 	// 5. NORMALS
 	NORMAL = vec3(0.0, 1.0, 0.0);
+	
 }
 
 void fragment() {
 	vec4 tex = texture(texture_albedo, UV);
-	ALBEDO = albedo.rgb* tex.rgb;
+	ALBEDO = albedo.rgb;
 	ALPHA = tex.a;
 	// Optional: discard very transparent pixels to clean up edges
 	if (ALPHA < 0.1) discard; 
