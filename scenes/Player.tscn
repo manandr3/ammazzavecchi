@@ -120,7 +120,7 @@ FallAcceleration = 80
 JumpImpulse = 30
 BoostedSpeed = 50
 
-[node name="bean" type="MeshInstance3D" parent="."]
+[node name="Beam" type="MeshInstance3D" parent="."]
 transform = Transform3D(1.45, 0, 0, 0, 1.15, 0, 0, 0, 1.45, 0, 0, 0)
 mesh = SubResource("ArrayMesh_6eyey")
 skeleton = NodePath("")
@@ -154,9 +154,9 @@ extra_cull_margin = 16384.0
 mesh = SubResource("QuadMesh_kpjcp")
 skeleton = NodePath("../../Spring_Arm_Ground/Camera_Target")
 
-[node name="CameraCollisionsChecker" type="Area3D" parent="Camera_Controller"]
+[node name="Camera_Collisions_Checker" type="Area3D" parent="Camera_Controller"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera_Controller/CameraCollisionsChecker"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera_Controller/Camera_Collisions_Checker"]
 shape = SubResource("SphereShape3D_e80uo")
 
 [node name="Spring_Arm_Objects" type="SpringArm3D" parent="Camera_Controller"]
@@ -167,5 +167,5 @@ shape = SubResource("SphereShape3D_cxr5p")
 
 [node name="TimerDash" type="Timer" parent="."]
 
-[connection signal="body_entered" from="Camera_Controller/CameraCollisionsChecker" to="Camera_Controller" method="OnCameraCollisionsCheckerAreaShapeEntered"]
+[connection signal="body_entered" from="Camera_Controller/Camera_Collisions_Checker" to="Camera_Controller" method="OnCameraCollisionsCheckerAreaShapeEntered"]
 [connection signal="timeout" from="TimerDash" to="." method="onTimerDashTimeout"]

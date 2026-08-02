@@ -6,72 +6,74 @@ public partial class CameraController : Node3D
 	[Export] public float MinPitch = Mathf.DegToRad(-89.99f);
 	[Export] public float MaxPitch = Mathf.DegToRad(60);
 	
-	private float _rotationY = 0f;
-	
 	private Vector3 camera_offset = new Vector3(0, 4, 4);
 	private int max_camera_zoomout = 12;
 	private int max_camera_zoomin = 1;
 	private Vector3 first_person_offset = new Vector3(0, 1f, 0);
 	
-	private float _yaw = 0f;
-	private float _pitch = 0f;
+	private float yaw = 0f;
+	private float pitch = 0f;
 	
-	private static SpringArm3D SpringArmGround;
-	private static SpringArm3D SpringArmObjects;
-	private static Node3D CameraTarget;
-	private static Node3D CameraTargetCollision;
-	private static Camera3D Camera;
-	private static Area3D CameraCollisionsChecker;
-	private bool CameraCollided = false;
+	private static SpringArm3D spring_arm_ground;
+	private static SpringArm3D spring_arm_objects;
+	private static Node3D camera_target;
+	private static Node3D camera_target_collision;
+	private static Camera3D camera;
+	private static Area3D camera_collisions_checker;
+	private static bool camera_collided = false;
+	private static CharacterBody3D player;
 
+	
 	public override void _Ready()
 	{
-		SpringArmGround = GetNode<SpringArm3D>("Spring_Arm_Ground");
-		SpringArmObjects = GetNode<SpringArm3D>("Spring_Arm_Objects");
+		//Instatiation of bean and camera_controller nodes (they are children of the player node)
+		spring_arm_ground = GetNode<SpringArm3D>("Spring_Arm_Ground");
+		spring_arm_objects = GetNode<SpringArm3D>("Spring_Arm_Objects");
 		CameraTarget = GetNode<Node3D>("Spring_Arm_Ground/Camera_Target");
-		CameraTargetCollision = GetNode<Node3D>("Spring_Arm_Objects/Camera_Target_Collision");
-		Camera = GetNode<Camera3D>("Camera3D");
-		CameraCollisionsChecker = GetNode<Area3D>("CameraCollisionsChecker");
+		camera_target_collision = GetNode<Node3D>("Spring_Arm_Objects/Camera_Target_Collision");
+		camera = GetNode<Camera3D>("Camera3D");
+		camera_collisions_checker = GetNode<Area3D>("Camera_Collisions_Checker");
+		player = GetParent() as CharacterBody3D;
 	}
 	
 	public override void _PhysicsProcess(double delta)
 	{
-
-		var Player = GetParent() as CharacterBody3D;
-
-		if (CameraCollided && CameraTarget.Position == CameraTargetCollision.Position)
-			CameraCollided = false;
 		
-		SpringArmObjects.SpringLength = Lerp(SpringArmObjects.SpringLength, camera_offset.Z, 0.2f);
-		SpringArmGround.SpringLength = Lerp(SpringArmGround.SpringLength, camera_offset.Z, 0.2f);
-
-		if (CameraCollided)
+		if (camera_collided && camera_target.Position == camera_target_collision.Position)
 		{
-			SpringArmObjects.SpringLength = Lerp(SpringArmObjects.SpringLength, camera_offset.Z, 0.2f);
+			camera_collided = false;
+		}
+		
+		spring_arm_objects.SpringLength = Lerp(spring_arm_objects.SpringLength, camera_offset.Z, 0.2f);
+		spring_arm_ground.SpringLength = Lerp(spring_arm_ground.SpringLength, camera_offset.Z, 0.2f);
+
+		if (camera_collided)
+		{
+			spring_arm_objects.SpringLength = Lerp(spring_arm_objects.SpringLength, camera_offset.Z, 0.2f);
 			if (camera_offset.Z == max_camera_zoomin)
 			{
-				Camera.Position = new Vector3(0, 0, 0);
-				GlobalPosition = Player.GlobalPosition + first_person_offset;
+				camera.Position = new Vector3(0, 0, 0);
+				GlobalPosition = player.GlobalPosition + first_person_offset;
 			}
 			else
 			{
-				Camera.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.1f);
-				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTargetCollision.Position, 0.1f);
-				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.1f);
+				camera.Position = Lerp3(camera.Position, camera_target_collision.Position, 0.1f);
+				camera_collisions_checker.Position = Lerp3(camera.Position, camera_target_collision.Position, 0.1f);
+				GlobalPosition = Lerp3(GlobalPosition, player.GlobalPosition, 0.1f);
 			}
 		}
 		else
 		{
 			if (camera_offset.Z == max_camera_zoomin)
 			{
-				Camera.Position = new Vector3(0, 0, 0);
-				GlobalPosition = Player.GlobalPosition + first_person_offset;
+				camera.Position = new Vector3(0, 0, 0);
+				GlobalPosition = player.GlobalPosition + first_person_offset;
 			}
 			else
 			{
-				Camera.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.1f);
-				CameraCollisionsChecker.Position = Lerp3(Camera.Position, CameraTarget.Position, 0.1f);
-				GlobalPosition = Lerp3(GlobalPosition, Player.GlobalPosition, 0.1f);
+				camera.Position = Lerp3(camera.Position, camera_target.Position, 0.1f);
+				camera_collisions_checker.Position = Lerp3(camera.Position, camera_target.Position, 0.1f);
+				GlobalPosition = Lerp3(GlobalPosition, player.GlobalPosition, 0.1f);
 			}
 		}
 		
@@ -79,8 +81,8 @@ public partial class CameraController : Node3D
 		
 		Rotation = new Vector3
 		(
-			_pitch,
-			_yaw,
+			pitch,
+			yaw,
 			0
 		);
 	}
@@ -91,8 +93,8 @@ public partial class CameraController : Node3D
 		{
 			if (@event is InputEventMouseMotion eventMouseMotion)
 			{
-				_yaw -= eventMouseMotion.Relative.X * camera_sensitivity;
-				_pitch = Mathf.Clamp(_pitch - eventMouseMotion.Relative.Y * camera_sensitivity, MinPitch, MaxPitch);
+				yaw -= eventMouseMotion.Relative.X * camera_sensitivity;
+				pitch = Mathf.Clamp(pitch - eventMouseMotion.Relative.Y * camera_sensitivity, MinPitch, MaxPitch);
 			}
 
 			if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
@@ -122,8 +124,8 @@ public partial class CameraController : Node3D
 
 	private void OnCameraCollisionsCheckerAreaShapeEntered(Node3D body)
 	{
-		CameraCollided = true;
-		Camera.Position = CameraTargetCollision.Position;
+		camera_collided = true;
+		camera.Position = camera_target_collision.Position;
 		
 	}
 	
